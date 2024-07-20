@@ -1,0 +1,51 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+}
+
+.navbar .left-icons {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .right-icons {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .center-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.navbar-li {
+    margin-right: 20px;
+}
+
+.navbar-li a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-li a:hover {
+    color: #110303;
+}
+
+.toyShop-icon {
+    width: 100px;
+    height: 100px;
+}
