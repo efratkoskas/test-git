@@ -49,3 +49,35 @@
     width: 100px;
     height: 100px;
 }
+
+.navbar input[type="text"] {
+    padding: 5px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-results {
+    list-style: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: absolute;
+    margin-top: 5px;
+    width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    padding: 0;
+}
+
+.search-results li {
+    list-style: none;
+    padding: 10px;
+    cursor: pointer;
+    background: #333;
+    color: white;
+}
+
+.search-results li:hover {
+    background: #686262;
+}

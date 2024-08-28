@@ -2,14 +2,14 @@ import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
 
 export const verifyToken = (req, res, next) => {
-    const token = req.header('auth-token');
+    const token = req.header('Authorization')?.split(' ')[1];
 
     if (!token) {
         return res.status(401).send('Access Denied');
     }
 
     try {
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
         req.user = verified;
         next();
     } catch (err) {
@@ -19,21 +19,8 @@ export const verifyToken = (req, res, next) => {
 
 export const isAdmin = async (req, res, next) => {
     try {
-        const user = await User.findById(req.user.id);
+        const user = await User.findById(req.user.userId);
         if (user.role === 'admin') {
-            next();
-        } else {
-            res.status(403).send('Access Denied');
-        }
-    } catch (err) {
-        res.status(500).send('Server Error');
-    }
-};
-
-export const isAdminOrOwner = async (req, res, next) => {
-    try {
-        const user = await User.findById(req.user.id);
-        if (user.role === 'admin' || user._id.toString() === req.params.userId) {
             next();
         } else {
             res.status(403).send('Access Denied');

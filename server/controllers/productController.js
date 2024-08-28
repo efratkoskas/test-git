@@ -1,13 +1,41 @@
 import Product from '../models/productModel.js';
 
-// @desc    Fetch all products
+// @desc    Search products
+// @route   GET /api/products/search
+// @access  Public
+export const searchProducts = async (req, res) => {
+    const query = req.query.query || '';
+    console.log('Search query:', query);
+    try {
+        const products = await Product.find({ name: { $regex: query, $options: 'i' } }).limit(10);
+        console.log('Products found:', products);
+        res.json(products);
+    } catch (error) {
+        console.error('Error in searchProducts:', error.message);
+        res.status(500).json({ message: 'Server Error', error: error.message });
+    }
+};
+
+// @desc    Fetch all products with pagination
 // @route   GET /api/products
 // @access  Public
 export const getProducts = async (req, res) => {
+    const pageSize = 4;
+    const page = Number(req.query.pageNumber) || 1;
+
     try {
-        const products = await Product.find({});
-        res.json(products);
+        const count = await Product.countDocuments({});
+        const products = await Product.find({})
+            .limit(pageSize)
+            .skip(pageSize * (page - 1));
+
+        res.json({
+            products,
+            page,
+            pages: Math.ceil(count / pageSize)
+        });
     } catch (error) {
+        console.error('Error in getProducts:', error.message);
         res.status(500).json({ message: 'Server Error' });
     }
 };
@@ -25,6 +53,7 @@ export const getProductById = async (req, res) => {
             res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
+        console.error('Error in getProductById:', error.message);
         res.status(500).json({ message: 'Server Error' });
     }
 };
@@ -43,13 +72,14 @@ export const createProduct = async (req, res) => {
         brand,
         category,
         countInStock,
-        user: req.user._id,
+        user: req.user.userId, // Ensure this is correct
     });
 
     try {
         const createdProduct = await product.save();
         res.status(201).json(createdProduct);
     } catch (error) {
+        console.error('Error in createProduct:', error.message);
         res.status(400).json({ message: 'Invalid product data' });
     }
 };
@@ -78,6 +108,7 @@ export const updateProduct = async (req, res) => {
             res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
+        console.error('Error in updateProduct:', error.message);
         res.status(400).json({ message: 'Invalid product data' });
     }
 };
@@ -96,6 +127,7 @@ export const deleteProduct = async (req, res) => {
             res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
+        console.error('Error in deleteProduct:', error.message);
         res.status(500).json({ message: 'Server Error' });
     }
 };

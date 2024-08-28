@@ -1,0 +1,77 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+
+const ProductForm: React.FC = () => {
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [price, setPrice] = useState(0);
+    const [category, setCategory] = useState('');
+    const [brand, setBrand] = useState('');
+    const [countInStock, setCountInStock] = useState(0);
+    const [image, setImage] = useState('');
+
+    const navigate = useNavigate();
+    const { id } = useParams<{ id: string }>();
+
+    useEffect(() => {
+        if (id) {
+            // Fetch the product details if editing
+            const fetchProduct = async () => {
+                const { data } = await axios.get('http://localhost:5000/api/products/${id}');
+                setName(data.name);
+                setDescription(data.description);
+                setPrice(data.price);
+                setCategory(data.category);
+                setBrand(data.brand);
+                setCountInStock(data.countInStock);
+                setImage(data.image);
+            };
+            fetchProduct();
+        }
+    }, [id]);
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const productData = { name, description, price, category, brand, countInStock, image };
+        const token = localStorage.getItem('authToken');
+
+        try {
+            const config = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            };
+
+            if (id) {
+                // Edit product
+                await axios.put('http://localhost:5000/api/products/${id}', productData, config);
+            } else {
+                // Add new product
+                await axios.post('http://localhost:5000/api/products', productData, config);
+            }
+            navigate('/home');
+        } catch (error) {
+            console.error('Error saving product:', error);
+        }
+    };
+
+    return (
+        <div>
+            <h2>{id ? 'Edit Product' : 'Add New Product'}</h2>
+            <form onSubmit={handleSubmit}>
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required />
+                <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" required />
+                <input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} placeholder="Price" required />
+                <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Category" required />
+                <input type="text" value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="Brand" required />
+                <input type="number" value={countInStock} onChange={(e) => setCountInStock(Number(e.target.value))} placeholder="Count In Stock" required />
+                <input type="text" value={image} onChange={(e) => setImage(e.target.value)} placeholder="Image URL" required />
+                <button type="submit">{id ? 'Update' : 'Add'} Product</button>
+            </form>
+        </div>
+    );
+};
+
+export default ProductForm;

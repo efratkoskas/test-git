@@ -1,0 +1,38 @@
+.all-products-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.all-products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.pagination {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0;
+}
+
+.pagination button {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.pagination button.active {
+    background: #007bff;
+    color: white;
+}
+
+.pagination button:hover {
+    background: #007bff;
+    color: white;
+}

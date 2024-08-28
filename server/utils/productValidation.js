@@ -3,10 +3,12 @@ import Joi from 'joi';
 // Define Joi schema for creating or updating a product
 const productSchema = Joi.object({
     name: Joi.string().required(),
-    description: Joi.string(),
+    description: Joi.string().required(),
     price: Joi.number().min(0).required(),
     category: Joi.string().required(),
-    // Add more fields as needed
+    brand: Joi.string().required(),
+    image: Joi.string().required(),
+    countInStock: Joi.number().min(0).required()
 });
 
-export default productSchema;   
+export default productSchema;
