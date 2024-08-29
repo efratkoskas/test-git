@@ -12,6 +12,27 @@ export const getCart = async (req, res) => {
     }
 };
 
+// @desc    Create a cart
+// @route   POST /api/cart/create
+// @access  Public
+export const createCart = async (req, res) => {
+    const { items = [], user } = req.body;
+
+    const cart = new Cart({
+
+        items,
+        user, // Ensure this is correct
+    });
+
+    try {
+        const createdCart = await cart.save();
+        res.status(201).json(createdCart);
+    } catch (error) {
+        console.error('Error in createProduct:', error.message);
+        res.status(400).json({ message: 'Invalid cart data' });
+    }
+};
+
 export const addToCart = async (req, res) => {
     const { cartItems } = req.body;
 

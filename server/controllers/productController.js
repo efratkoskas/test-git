@@ -18,7 +18,7 @@ export const searchProducts = async (req, res) => {
 
 // @desc    Fetch all products with pagination
 // @route   GET /api/products
-// @access  Public
+// @access  Public  
 export const getProducts = async (req, res) => {
     const pageSize = 4;
     const page = Number(req.query.pageNumber) || 1;
