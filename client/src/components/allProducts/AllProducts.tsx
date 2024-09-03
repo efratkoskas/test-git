@@ -163,6 +163,8 @@ import SingleProduct, { Product } from '../singleProduct/SingleProduct';
 import axios from 'axios';
 import { useCart } from '../../pages/cartContext/CartContext';
 import { useFav } from '../../pages/favoriteItemsContext/FavoriteItemsContext';
+import { useProduct } from '../../pages/productsContext/ProductsContext';
+
 
 const AllProducts = () => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -170,12 +172,15 @@ const AllProducts = () => {
     const [pages, setPages] = useState(0);
 
     const { addToCart } = useCart();
+    const { setProductsList } = useProduct();
     const { addToFavorites } = useFav();
 
     useEffect(() => {
+        // move this to product context and call it from cart.tsx / app.tsx because its get refreshed and data lost
         const fetchProducts = async () => {
             try {
                 const { data } = await axios.get(`http://localhost:5000/api/products?pageNumber=${page}`);
+                setProductsList(data.products);
                 setProducts(data.products);
                 setPage(data.page);
                 setPages(data.pages);

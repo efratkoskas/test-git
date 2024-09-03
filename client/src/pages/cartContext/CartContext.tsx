@@ -287,6 +287,7 @@ import { Product } from '../../components/singleProduct/SingleProduct';
 
 interface CartItem extends Product {
     quantity: number;
+    product: string;
 }
 
 interface CartContextProps {
@@ -346,10 +347,11 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+                params: { user: user._id },
             };
 
             const { data } = await axios.get(`http://localhost:5000/api/cart`, config);
-            dispatch({ type: 'SET_CART_ITEMS', payload: data.cartItems });
+            dispatch({ type: 'SET_CART_ITEMS', payload: data.items || [] });
         } catch (error) {
             console.error('Failed to load cart from database:', error);
         }

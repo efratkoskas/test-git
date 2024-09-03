@@ -71,7 +71,7 @@
 
 
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import './singleProduct.css';
 import { MdOutlineShoppingCart } from 'react-icons/md';
 import { FaRegHeart } from 'react-icons/fa';
@@ -101,6 +101,12 @@ const SingleProduct: React.FC<ProductProps> = ({ product, addToCart, addToFavori
     const handleProductClick = () => {
         navigate(`/products/${product._id}`);
     };
+
+    useEffect(() => {
+        if (!product.name) {
+
+        }
+    }, [product]);
 
     return (
         <div className="single-product" onClick={handleProductClick}>

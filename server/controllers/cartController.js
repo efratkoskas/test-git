@@ -1,8 +1,11 @@
 import Cart from '../models/Cart.js';
+import mongoose from 'mongoose';
 
 export const getCart = async (req, res) => {
     try {
-        const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
+        const { user } = req.query;
+        const cart = await Cart.findOne({ user: mongoose.Types.ObjectId(user) });
+        console.log(req, 'req');
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
@@ -34,16 +37,16 @@ export const createCart = async (req, res) => {
 };
 
 export const addToCart = async (req, res) => {
-    const { cartItems } = req.body;
+    const { cartItems, userId } = req.body;
 
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
         return res.status(400).json({ message: 'Cart items should be an array and not empty.' });
     }
 
     try {
-        let cart = await Cart.findOne({ user: req.user._id });
+        let cart = await Cart.findOne({ user: mongoose.Types.ObjectId(userId) });
         if (!cart) {
-            cart = new Cart({ user: req.user._id, items: [] });
+            cart = new Cart({ user: userId, items: [] });
         }
 
         for (let item of cartItems) {
@@ -57,7 +60,8 @@ export const addToCart = async (req, res) => {
             }
         }
 
-        await cart.save();
+        const x = await cart.save();
+        console.log('Cart saved:', x);
         res.json(cart);
     } catch (error) {
         console.error('Error saving cart:', error);
@@ -68,7 +72,8 @@ export const addToCart = async (req, res) => {
 
 export const clearCart = async (req, res) => {
     try {
-        const cart = await Cart.findOneAndDelete({ user: req.user._id });
+        const { userId } = req.params;
+        const cart = await Cart.findOneAndDelete({ user: mongoose.Types.ObjectId(userId) });
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }

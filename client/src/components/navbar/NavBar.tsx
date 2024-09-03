@@ -207,7 +207,7 @@ const NavBar: React.FC = () => {
 
     const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
-        if (e.target.value.length > 2) {
+        if (e.target.value.length > 0) {
             try {
                 const { data } = await axios.get<SearchResult[]>('http://localhost:5000/api/products/search?query=' + e.target.value);
                 setSearchResults(data);

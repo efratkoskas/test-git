@@ -100,6 +100,7 @@ import { UserProvider, useUser } from './pages/userContext/UserContext'; // Impo
 import { useNavigate } from 'react-router-dom';
 import { CartProvider } from './pages/cartContext/CartContext';
 import { FavProvider } from './pages/favoriteItemsContext/FavoriteItemsContext';
+import { ProductProvider } from './pages/productsContext/ProductsContext';
 
 const AppContent: React.FC = () => {
   const navigate = useNavigate();
@@ -130,15 +131,17 @@ const AppContent: React.FC = () => {
 
 function App() {
   return (
-    <CartProvider>
-      <FavProvider>
-        <UserProvider>
-          <div className="App">
-            <AppContent />
-          </div>
-        </UserProvider>
-      </FavProvider>
-    </CartProvider>
+    <ProductProvider>
+      <CartProvider>
+        <FavProvider>
+          <UserProvider>
+            <div className="App">
+              <AppContent />
+            </div>
+          </UserProvider>
+        </FavProvider>
+      </CartProvider >
+    </ProductProvider >
   );
 }
 
