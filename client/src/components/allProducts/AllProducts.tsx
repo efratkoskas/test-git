@@ -172,23 +172,24 @@ const AllProducts = () => {
     const [pages, setPages] = useState(0);
 
     const { addToCart } = useCart();
-    const { setProductsList } = useProduct();
+    const { fetchProducts } = useProduct();
     const { addToFavorites } = useFav();
 
     useEffect(() => {
         // move this to product context and call it from cart.tsx / app.tsx because its get refreshed and data lost
-        const fetchProducts = async () => {
+        const fetchProductList = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:5000/api/products?pageNumber=${page}`);
-                setProductsList(data.products);
-                setProducts(data.products);
+                // const { data } = await axios.get(`http://localhost:5000/api/products?pageNumber=${page}`);
+                // setProductsList(data.products);
+                const data = await fetchProducts(page);
+                setProducts(data.products || []);
                 setPage(data.page);
                 setPages(data.pages);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
         };
-        fetchProducts();
+        fetchProductList();
     }, [page]);
 
     const createPageArray = (num: number) => {
@@ -198,7 +199,7 @@ const AllProducts = () => {
     return (
         <div className="all-products-container">
             <div className="all-products">
-                {products.map(product => (
+                {products?.map(product => (
                     <SingleProduct
                         key={product._id}
                         product={product}

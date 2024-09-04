@@ -5,10 +5,10 @@ export const getCart = async (req, res) => {
     try {
         const { user } = req.query;
         const cart = await Cart.findOne({ user: mongoose.Types.ObjectId(user) });
-        console.log(req, 'req');
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
+        console.log('cart user', cart.user, 'cart items', cart.items?.length);
         res.json(cart);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
@@ -49,6 +49,7 @@ export const addToCart = async (req, res) => {
             cart = new Cart({ user: userId, items: [] });
         }
 
+
         for (let item of cartItems) {
             const { productId, quantity } = item;
             const itemIndex = cart.items.findIndex(cartItem => cartItem.product.toString() === productId);
@@ -60,8 +61,8 @@ export const addToCart = async (req, res) => {
             }
         }
 
-        const x = await cart.save();
-        console.log('Cart saved:', x);
+        const savedCart = await cart.save();
+        console.log('saved cart user', savedCart);
         res.json(cart);
     } catch (error) {
         console.error('Error saving cart:', error);

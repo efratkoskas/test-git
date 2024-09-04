@@ -389,12 +389,12 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     };
 
     const addToCart = (product: Product) => {
-        const existingItem = state.cartItems.find((item: CartItem) => item._id === product._id);
-        if (existingItem) {
-            dispatch({ type: 'INCREASE_QUANTITY', payload: product._id });
-        } else {
-            dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } });
-        }
+        // const existingItem = state.cartItems.find((item: CartItem) => item._id === product._id);
+        // if (existingItem) {
+        //     dispatch({ type: 'INCREASE_QUANTITY', payload: product._id });
+        // } else {
+        dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } });
+        // }
         saveCartToDatabase([...state.cartItems, { ...product, quantity: 1 }]);
         toast.success('Item added to cart');
     };

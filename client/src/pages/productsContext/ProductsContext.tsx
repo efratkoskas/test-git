@@ -141,6 +141,7 @@
 
 
 
+import axios from 'axios';
 import React, { createContext, useReducer, useContext } from 'react';
 
 interface Product {
@@ -154,7 +155,7 @@ interface Product {
 
 interface ProductContextProps {
     products: Product[] | [];
-    setProductsList: (product: Product | null) => void;
+    fetchProducts: (page?: Number) => Promise<any>;
 }
 
 const ProductContext = createContext<ProductContextProps | undefined>(undefined);
@@ -163,6 +164,8 @@ const productReducer = (state: any, action: any) => {
     switch (action.type) {
         case 'SET_PRODUCTS':
             return { ...state, products: action.payload };
+        // case 'FETCH_PRODUCTS':
+        //     return { ...state, products: action.payload };
         default:
             return state;
     }
@@ -181,8 +184,14 @@ export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) =>
         }
     };
 
+    const fetchProducts = async (page: Number = 0): Promise<any> => {
+        const { data } = await axios.get(`http://localhost:5000/api/products?pageNumber=${page}`);
+        setProductsList(data.products);
+        return data;
+    }
+
     return (
-        <ProductContext.Provider value={{ products: state.products, setProductsList }}>
+        <ProductContext.Provider value={{ products: state.products, fetchProducts }}>
             {children}
         </ProductContext.Provider>
     );
