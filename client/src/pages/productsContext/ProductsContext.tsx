@@ -155,7 +155,8 @@ interface Product {
 
 interface ProductContextProps {
     products: Product[] | [];
-    fetchProducts: (page?: Number) => Promise<any>;
+    fetchProducts: (page?: number, limit?: number) => Promise<any>;
+    totalItems: number
 }
 
 const ProductContext = createContext<ProductContextProps | undefined>(undefined);
@@ -163,9 +164,11 @@ const ProductContext = createContext<ProductContextProps | undefined>(undefined)
 const productReducer = (state: any, action: any) => {
     switch (action.type) {
         case 'SET_PRODUCTS':
-            return { ...state, products: action.payload };
-        // case 'FETCH_PRODUCTS':
-        //     return { ...state, products: action.payload };
+            return {
+                ...state,
+                products: action.payload.products,
+                totalItems: action.payload.totalItems
+            };
         default:
             return state;
     }
@@ -178,20 +181,20 @@ interface ProductProviderProps {
 export const ProductProvider: React.FC<ProductProviderProps> = ({ children }) => {
     const [state, dispatch] = useReducer(productReducer, { product: null });
 
-    const setProductsList = (products: Product | null) => {
+    const setProductsList = (products: Product | null, totalItems: number) => {
         if (state.products !== products) {
-            dispatch({ type: 'SET_PRODUCTS', payload: products });
+            dispatch({ type: 'SET_PRODUCTS', payload: { products, totalItems } });
         }
     };
 
-    const fetchProducts = async (page: Number = 0): Promise<any> => {
-        const { data } = await axios.get(`http://localhost:5000/api/products?pageNumber=${page}`);
-        setProductsList(data.products);
+    const fetchProducts = async (page: number = 0, limit: number | undefined): Promise<any> => {
+        const { data } = await axios.get(`http://localhost:5000/api/products?pageNumber=${page}&limit=${limit}`);
+        setProductsList(data.products, data.total);
         return data;
     }
 
     return (
-        <ProductContext.Provider value={{ products: state.products, fetchProducts }}>
+        <ProductContext.Provider value={{ products: state.products, fetchProducts, totalItems: state.totalItems }}>
             {children}
         </ProductContext.Provider>
     );

@@ -115,23 +115,24 @@ const SingleProduct: React.FC<ProductProps> = ({ product, addToCart, addToFavori
             <div className="text-container">
                 <p>{product.description}</p>
             </div>
-            {showButtons && (
-                <div className="bottom-container">
-                    <div className="product-buttons">
-                        {addToCart && (
-                            <button onClick={(e) => { e.stopPropagation(); addToCart(product) }}>
-                                <MdOutlineShoppingCart size={20} />
-                            </button>
-                        )}
-                        {showFavoriteButton && addToFavorites && (
-                            <button onClick={(e) => { e.stopPropagation(); addToFavorites(product) }}>
-                                <FaRegHeart size={20} />
-                            </button>
-                        )}
-                    </div>
-                    <p className="product-price">${product.price}</p>
+
+            <div className="bottom-container"
+            > {showButtons && (
+                <div className="product-buttons">
+                    {addToCart && (
+                        <button onClick={(e) => { e.stopPropagation(); addToCart(product) }}>
+                            <MdOutlineShoppingCart size={20} />
+                        </button>
+                    )}
+                    {showFavoriteButton && addToFavorites && (
+                        <button onClick={(e) => { e.stopPropagation(); addToFavorites(product) }}>
+                            <FaRegHeart size={20} />
+                        </button>
+                    )}
                 </div>
             )}
+                <p className="product-price">${product.price}</p>
+            </div>
         </div>
     );
 };

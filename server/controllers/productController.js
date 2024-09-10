@@ -20,7 +20,7 @@ export const searchProducts = async (req, res) => {
 // @route   GET /api/products
 // @access  Public  
 export const getProducts = async (req, res) => {
-    const pageSize = 4;
+    const pageSize = Number(req.query.limit) || 4;
     const page = Number(req.query.pageNumber) || 1;
 
     try {
@@ -32,7 +32,8 @@ export const getProducts = async (req, res) => {
         res.json({
             products,
             page,
-            pages: Math.ceil(count / pageSize)
+            pages: Math.ceil(count / pageSize),
+            total: count
         });
     } catch (error) {
         console.error('Error in getProducts:', error.message);

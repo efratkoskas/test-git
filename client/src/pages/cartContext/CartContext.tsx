@@ -301,6 +301,28 @@ interface CartContextProps {
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
+const _increaseQuantity = (state: any, idToIncrease: string) =>
+({
+    ...state,
+    cartItems: state.cartItems.map((item: CartItem) =>
+        item._id === idToIncrease ? { ...item, quantity: item.quantity + 1 } : item
+    )
+}
+);
+
+const _decreaseQuantity = (state: any, idToIncrease: string) =>
+({
+    ...state,
+    cartItems: state.cartItems.map((item: CartItem) =>
+        item._id === idToIncrease ? { ...item, quantity: item.quantity - 1 } : item
+    ).filter((item: CartItem) => item.quantity > 0),
+}
+);
+
+const _removeFromCart = (state: any, idToIncrease: string) => (
+    { ...state, cartItems: state.cartItems.map((item: CartItem) => (item._id !== idToIncrease ? item : { ...item, quantity: 0 })) }
+)
+
 const cartReducer = (state: any, action: any) => {
     switch (action.type) {
         case 'SET_CART_ITEMS':
@@ -308,21 +330,11 @@ const cartReducer = (state: any, action: any) => {
         case 'ADD_TO_CART':
             return { ...state, cartItems: [...state.cartItems, action.payload] };
         case 'REMOVE_FROM_CART':
-            return { ...state, cartItems: state.cartItems.filter((item: CartItem) => item._id !== action.payload) };
+            return _removeFromCart(state, action.payload);
         case 'INCREASE_QUANTITY':
-            return {
-                ...state,
-                cartItems: state.cartItems.map((item: CartItem) =>
-                    item._id === action.payload ? { ...item, quantity: item.quantity + 1 } : item
-                ),
-            };
+            return _increaseQuantity(state, action.payload);
         case 'DECREASE_QUANTITY':
-            return {
-                ...state,
-                cartItems: state.cartItems.map((item: CartItem) =>
-                    item._id === action.payload ? { ...item, quantity: item.quantity - 1 } : item
-                ).filter((item: CartItem) => item.quantity > 0),
-            };
+            return _decreaseQuantity(state, action.payload);
         case 'CLEAR_CART':
             return { ...state, cartItems: [] };
         default:
@@ -373,7 +385,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
             const dataToSend = {
                 userId: user._id,
                 cartItems: cartItems.map((item: CartItem) => ({
-                    productId: item._id,
+                    productId: item.product,
                     quantity: item.quantity,
                 })),
             };
@@ -389,30 +401,30 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     };
 
     const addToCart = (product: Product) => {
-        // const existingItem = state.cartItems.find((item: CartItem) => item._id === product._id);
-        // if (existingItem) {
-        //     dispatch({ type: 'INCREASE_QUANTITY', payload: product._id });
-        // } else {
-        dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1 } });
-        // }
-        saveCartToDatabase([...state.cartItems, { ...product, quantity: 1 }]);
+        const existingItem = state.cartItems.find((item: CartItem) => item._id === product._id);
+        if (existingItem) {
+            dispatch({ type: 'INCREASE_QUANTITY', payload: product._id });
+        } else {
+            dispatch({ type: 'ADD_TO_CART', payload: { ...product, quantity: 1, product: product._id } });
+            saveCartToDatabase([...state.cartItems, { ...product, quantity: 1, product: product._id }]);
+        }
         toast.success('Item added to cart');
     };
 
     const removeFromCart = (productId: string) => {
         dispatch({ type: 'REMOVE_FROM_CART', payload: productId });
-        saveCartToDatabase(state.cartItems.filter((item: CartItem) => item._id !== productId));
+        saveCartToDatabase(_removeFromCart(state, productId)?.cartItems);
         toast.warn('Item removed from cart');
     };
 
     const increaseQuantity = (productId: string) => {
         dispatch({ type: 'INCREASE_QUANTITY', payload: productId });
-        saveCartToDatabase(state.cartItems);
+        saveCartToDatabase(_increaseQuantity(state, productId)?.cartItems);
     };
 
     const decreaseQuantity = (productId: string) => {
         dispatch({ type: 'DECREASE_QUANTITY', payload: productId });
-        saveCartToDatabase(state.cartItems);
+        saveCartToDatabase(_decreaseQuantity(state, productId)?.cartItems);
     };
 
     const clearCart = () => {

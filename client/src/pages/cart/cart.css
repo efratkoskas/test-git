@@ -34,6 +34,10 @@
     background: #f0f0f0;
 }
 
+.quantity-controls button:disabled {
+    cursor: not-allowed;
+}
+
 .quantity-controls span {
     font-weight: bold;
 }

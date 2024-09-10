@@ -7,25 +7,28 @@ import { useFav } from '../favoriteItemsContext/FavoriteItemsContext';
 
 const Cart = () => {
     const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
-    const { products = [], fetchProducts } = useProduct();
+    const { products = [], fetchProducts, totalItems } = useProduct();
     const { addToFavorites } = useFav();
 
     useEffect(() => {
         const fetchProductList = async () => {
             try {
-                if (products.length === 0) {
-                    await fetchProducts(0);
+                if (!totalItems || products.length < totalItems) {
+                    await fetchProducts(0, totalItems);
                 }
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
         };
         fetchProductList();
-    }, [products?.length]);
+    }, [products?.length, fetchProducts, totalItems]);
+
+
+    const defaultProduct = { name: '', description: '', image: '', price: 0 };
 
     const getItems = () => {
         return cartItems.map(cartItem => {
-            const product = products.find(p => p._id === cartItem.product) || { name: '', description: '', image: '', price: 0 };
+            const product = products.find(p => p._id === cartItem.product || p._id === cartItem._id) || defaultProduct;
             return {
                 ...cartItem,
                 description: product.description,
@@ -52,7 +55,7 @@ const Cart = () => {
                             addToFavorites={addToFavorites}
                         />
                         <div className="quantity-controls">
-                            <button onClick={() => decreaseQuantity(cartItem._id)}>-</button>
+                            <button onClick={() => decreaseQuantity(cartItem._id)} disabled={cartItem.quantity === 1}>-</button>
                             <span>{cartItem.quantity}</span>
                             <button onClick={() => increaseQuantity(cartItem._id)}>+</button>
                         </div>

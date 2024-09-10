@@ -171,7 +171,7 @@ const AllProducts = () => {
     const [page, setPage] = useState(1);
     const [pages, setPages] = useState(0);
 
-    const { addToCart } = useCart();
+    const { addToCart} = useCart();
     const { fetchProducts } = useProduct();
     const { addToFavorites } = useFav();
 
