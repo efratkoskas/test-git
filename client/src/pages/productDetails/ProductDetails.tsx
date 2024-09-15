@@ -129,8 +129,11 @@ import './productDetails.css';
 import { MdOutlineShoppingCart } from 'react-icons/md';
 import { FaRegHeart } from 'react-icons/fa';
 import { useUser } from '../userContext/UserContext'; // Use UserContext
-import { useCart } from '../cartContext/CartContext';
+// import { useCart } from '../cartContext/CartContext';
 import { useFav } from '../favoriteItemsContext/FavoriteItemsContext';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../redux/Store';
+import { addToCart } from '../../redux/slices/cartSlice';
 
 interface Product {
     _id: string;
@@ -144,11 +147,12 @@ interface Product {
 }
 
 const ProductDetails: React.FC = () => {
+    const dispatch: AppDispatch = useDispatch();
     const { id } = useParams<{ id: string }>();
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const { addToCart } = useCart();
+    // const { addToCart } = useCart();
     const { addToFavorites } = useFav();
     const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
@@ -212,7 +216,7 @@ const ProductDetails: React.FC = () => {
                     <p>In Stock: <span>{product.countInStock}</span></p>
                     <div className="bottom-container">
                         <div className="product-buttons">
-                            <button onClick={() => addToCart(product)}>
+                            <button onClick={() => dispatch(addToCart(product))}>
                                 <MdOutlineShoppingCart size={20} />
                             </button>
                             <button onClick={() => addToFavorites(product)}>

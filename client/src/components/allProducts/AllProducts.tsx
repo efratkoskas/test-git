@@ -161,17 +161,20 @@ import React, { useEffect, useState } from 'react';
 import './allProducts.css';
 import SingleProduct, { Product } from '../singleProduct/SingleProduct';
 import axios from 'axios';
-import { useCart } from '../../pages/cartContext/CartContext';
+// import { useCart } from '../../pages/cartContext/CartContext';
 import { useFav } from '../../pages/favoriteItemsContext/FavoriteItemsContext';
 import { useProduct } from '../../pages/productsContext/ProductsContext';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../../redux/slices/cartSlice';
+import { UnknownAction } from '@reduxjs/toolkit';
+import { AppDispatch } from '../../redux/Store';
 
 const AllProducts = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [page, setPage] = useState(1);
     const [pages, setPages] = useState(0);
 
-    const { addToCart} = useCart();
+    // const { addToCart } = useCart();
     const { fetchProducts } = useProduct();
     const { addToFavorites } = useFav();
 
@@ -195,7 +198,7 @@ const AllProducts = () => {
     const createPageArray = (num: number) => {
         return Array.from({ length: num }, (_, i) => i + 1);
     };
-
+    const dispatch: AppDispatch = useDispatch();
     return (
         <div className="all-products-container">
             <div className="all-products">
@@ -203,7 +206,7 @@ const AllProducts = () => {
                     <SingleProduct
                         key={product._id}
                         product={product}
-                        addToCart={addToCart}
+                        addToCart={(product: Product) => dispatch(addToCart(product))}
                         addToFavorites={addToFavorites}
                         showButtons={true}
                     />
