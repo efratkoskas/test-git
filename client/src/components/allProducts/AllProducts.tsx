@@ -160,34 +160,37 @@
 import React, { useEffect, useState } from 'react';
 import './allProducts.css';
 import SingleProduct, { Product } from '../singleProduct/SingleProduct';
-import axios from 'axios';
+// import axios from 'axios';
 // import { useCart } from '../../pages/cartContext/CartContext';
 import { useFav } from '../../pages/favoriteItemsContext/FavoriteItemsContext';
-import { useProduct } from '../../pages/productsContext/ProductsContext';
+// import { useProduct } from '../../pages/productsContext/ProductsContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { UnknownAction } from '@reduxjs/toolkit';
-import { AppDispatch } from '../../redux/Store';
+import { AppDispatch, RootState } from '../../redux/Store';
+import { fetchProducts } from '../../redux/slices/productSlice';
 
 const AllProducts = () => {
-    const [products, setProducts] = useState<Product[]>([]);
+    const dispatch: AppDispatch = useDispatch();
+    const { products, pages } = useSelector((state: RootState) => state.product);
+    // const [products, setProducts] = useState<Product[]>([]);
     const [page, setPage] = useState(1);
-    const [pages, setPages] = useState(0);
+    // const [pages, setPages] = useState(0);
 
     // const { addToCart } = useCart();
-    const { fetchProducts } = useProduct();
+    // const { fetchProducts } = useProduct();
     const { addToFavorites } = useFav();
 
     useEffect(() => {
-        // move this to product context and call it from cart.tsx / app.tsx because its get refreshed and data lost
         const fetchProductList = async () => {
             try {
                 // const { data } = await axios.get(`http://localhost:5000/api/products?pageNumber=${page}`);
                 // setProductsList(data.products);
-                const data = await fetchProducts(page);
-                setProducts(data.products || []);
-                setPage(data.page);
-                setPages(data.pages);
+                // const data = 
+                await dispatch(fetchProducts({ page }));
+                // setProducts(data.products || []);
+                // setPage(data.page);
+                // setPages(data.pages);
             } catch (error) {
                 console.error("Error fetching products:", error);
             }
@@ -198,7 +201,7 @@ const AllProducts = () => {
     const createPageArray = (num: number) => {
         return Array.from({ length: num }, (_, i) => i + 1);
     };
-    const dispatch: AppDispatch = useDispatch();
+
     return (
         <div className="all-products-container">
             <div className="all-products">

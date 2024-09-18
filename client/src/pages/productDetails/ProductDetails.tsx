@@ -128,7 +128,7 @@ import axios from 'axios';
 import './productDetails.css';
 import { MdOutlineShoppingCart } from 'react-icons/md';
 import { FaRegHeart } from 'react-icons/fa';
-import { useUser } from '../userContext/UserContext'; // Use UserContext
+// import { useUser } from '../userContext/UserContext'; // Use UserContext
 // import { useCart } from '../cartContext/CartContext';
 import { useFav } from '../favoriteItemsContext/FavoriteItemsContext';
 import { useDispatch } from 'react-redux';

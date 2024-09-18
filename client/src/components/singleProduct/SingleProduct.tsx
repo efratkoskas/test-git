@@ -77,7 +77,7 @@ import { MdOutlineShoppingCart } from 'react-icons/md';
 import { FaRegHeart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 // import { useCart } from '../../pages/cartContext/CartContext';
-import { useFav } from '../../pages/favoriteItemsContext/FavoriteItemsContext';
+// import { useFav } from '../../pages/favoriteItemsContext/FavoriteItemsContext';
 import { IoMdHeart } from "react-icons/io";
 
 export interface Product {

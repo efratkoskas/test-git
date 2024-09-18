@@ -174,8 +174,11 @@ import { BsTelephone } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
 import { IoHomeOutline } from "react-icons/io5";
 import axios from 'axios';
-import { useUser } from '../../pages/userContext/UserContext';
+// import { useUser } from '../../pages/userContext/UserContext';
 import './navBar.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux/Store';
+import { setUser } from '../../redux/slices/userSlice';
 
 interface SearchResult {
     _id: string;
@@ -186,16 +189,18 @@ const NavBar: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const { user, setUser } = useUser();
+    // const { user, setUser } = useUser();
+    const user = useSelector((state: RootState) => state.user.user);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const handleStorageChange = () => {
             const savedUser = localStorage.getItem('user');
             if (savedUser) {
-                setUser(JSON.parse(savedUser));
+                dispatch(setUser(JSON.parse(savedUser)));
             } else {
-                setUser(null);
+                dispatch(setUser(null));
             }
         };
 
@@ -235,7 +240,7 @@ const NavBar: React.FC = () => {
     const handleLogout = () => {
         localStorage.removeItem('authToken');
         localStorage.removeItem('user');
-        setUser(null);
+        dispatch(setUser(null));
         navigate('/loginRegister');
     };
 

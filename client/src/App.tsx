@@ -96,11 +96,11 @@ import Routers from './routers/Routers';
 import NavBar from './components/navbar/NavBar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { UserProvider } from './pages/userContext/UserContext'; // Import UserProvider and useUser
+// import { UserProvider } from './pages/userContext/UserContext'; // Import UserProvider and useUser
 import { useNavigate } from 'react-router-dom';
 // import { CartProvider, useCart } from './pages/cartContext/CartContext';
 import { FavProvider } from './pages/favoriteItemsContext/FavoriteItemsContext';
-import { ProductProvider } from './pages/productsContext/ProductsContext';
+// import { ProductProvider } from './pages/productsContext/ProductsContext';
 import { Provider } from 'react-redux'
 import AppContent from './AppContent';
 import store from './redux/Store';
@@ -139,17 +139,17 @@ import store from './redux/Store';
 function App() {
   return (
     <Provider store={store}>
-      <ProductProvider>
-        {/* <CartProvider> */}
-        <FavProvider>
-          <UserProvider>
-            <div className="App">
-              <AppContent />
-            </div>
-          </UserProvider>
-        </FavProvider>
-        {/* </CartProvider > */}
-      </ProductProvider >
+      {/* <ProductProvider> */}
+      {/* <CartProvider> */}
+      <FavProvider>
+        {/* <UserProvider> */}
+        <div className="App">
+          <AppContent />
+        </div>
+        {/* </UserProvider> */}
+      </FavProvider>
+      {/* </CartProvider > */}
+      {/* </ProductProvider > */}
     </Provider>
   );
 }

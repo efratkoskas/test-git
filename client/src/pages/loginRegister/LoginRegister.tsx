@@ -321,7 +321,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './loginRegister.css'; // Import CSS file
-import { useUser } from '../userContext/UserContext'; // Import the user context
+import { setUser } from '../../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
+// import { useUser } from '../userContext/UserContext'; // Import the user context
 
 const LoginRegister: React.FC = () => {
     const [isLoginMode, setIsLoginMode] = useState(true);
@@ -331,8 +333,8 @@ const LoginRegister: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
-    const { setUser } = useUser(); // Use the setUser function from the user context
-
+    // const { setUser } = useUser(); // Use the setUser function from the user context
+    const dispatch = useDispatch();
     useEffect(() => {
         console.log('Initial isLoginMode:', isLoginMode);
     }, [isLoginMode]);
@@ -348,7 +350,7 @@ const LoginRegister: React.FC = () => {
                 const { token, role, ...user } = response.data;
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('user', JSON.stringify({ ...user, role }));
-                setUser({ ...user, role }); // Update the user context
+                dispatch(setUser({ ...user, role })); // Update the user context
                 alert('Login successful!');
                 navigate('/home');
             } else {
@@ -375,7 +377,7 @@ const LoginRegister: React.FC = () => {
                 const { token, role, ...user } = response.data;
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('user', JSON.stringify({ ...user, role }));
-                setUser({ ...user, role }); // Update the user context
+                dispatch(setUser({ ...user, role })); // Update the user context
                 alert('Registration successful!');
                 navigate('/home'); // Redirect to home after successful registration
             } else {

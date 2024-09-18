@@ -2,15 +2,18 @@ import React, { useEffect } from 'react';
 import './cart.css';
 import SingleProduct from '../../components/singleProduct/SingleProduct';
 // import { useCart } from '../cartContext/CartContext';
-import { useProduct } from '../productsContext/ProductsContext';
+// import { useProduct } from '../productsContext/ProductsContext';
 import { useFav } from '../favoriteItemsContext/FavoriteItemsContext';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/Store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/Store';
 import { decreaseQuantity, increaseQuantity, removeFromCart } from '../../redux/slices/cartSlice';
+import { fetchProducts } from '../../redux/slices/productSlice';
 
 const Cart = () => {
     // const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, getCart } = useCart();
-    const { products = [], fetchProducts, totalItems } = useProduct();
+    // const { products = [], fetchProducts, totalItems } = useProduct();
+    const dispatch: AppDispatch = useDispatch();
+    const { products, totalItems } = useSelector((state: RootState) => state.product);
     const { addToFavorites } = useFav();
     const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
@@ -18,7 +21,7 @@ const Cart = () => {
         const fetchProductList = async () => {
             try {
                 if (!totalItems || products.length < totalItems) {
-                    await fetchProducts(0, totalItems);
+                    await dispatch(fetchProducts({ page: 0, limit: totalItems }));
                 }
             } catch (error) {
                 console.error("Error fetching products:", error);
