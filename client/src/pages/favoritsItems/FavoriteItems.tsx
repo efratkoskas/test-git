@@ -1,37 +1,3 @@
-// import React from 'react';
-// import SingleProduct from '../components/singleProduct/SingleProduct';
-// import { useCart } from './CartContext';
-
-// const FavoriteItems = () => {
-//     const { favoriteItems, addToCart, removeFromFavorites } = useCart();
-
-//     return (
-//         <div>
-//             <h1>Favorite Items</h1>
-//             {favoriteItems.length > 0 ? (
-//                 favoriteItems.map(product => (
-//                     <div key={product._id}>
-//                         <SingleProduct
-//                             product={product}
-//                             showButtons={true}
-//                             addToCart={addToCart}
-//                             addToFavorites={() => removeFromFavorites(product._id)}
-//                             showFavoriteButton={false}
-//                         />
-//                         <button onClick={() => removeFromFavorites(product._id)}>Remove from Favorites</button>
-//                     </div>
-//                 ))
-//             ) : (
-//                 <p>No favorite items.</p>
-//             )}
-//         </div>
-//     );
-// };
-
-// export default FavoriteItems;
-
-
-
 // FavoriteItems.js
 import React from 'react';
 import './FavoriteItems.css';

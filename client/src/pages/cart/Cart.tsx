@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import './cart.css';
 import SingleProduct from '../../components/singleProduct/SingleProduct';
-// import { useCart } from '../cartContext/CartContext';
-// import { useProduct } from '../productsContext/ProductsContext';
 import { useFav } from '../favoriteItemsContext/FavoriteItemsContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
@@ -10,8 +8,6 @@ import { decreaseQuantity, increaseQuantity, removeFromCart } from '../../redux/
 import { fetchProducts } from '../../redux/slices/productSlice';
 
 const Cart = () => {
-    // const { cartItems, removeFromCart, increaseQuantity, decreaseQuantity, getCart } = useCart();
-    // const { products = [], fetchProducts, totalItems } = useProduct();
     const dispatch: AppDispatch = useDispatch();
     const { products, totalItems } = useSelector((state: RootState) => state.product);
     const { addToFavorites } = useFav();
@@ -46,10 +42,6 @@ const Cart = () => {
             };
         });
     }
-
-    // useEffect(() => {
-    //     getCart();
-    // }, [cartItems?.length, getCart]);
 
     const updatedItems = getItems();
     // Tip: Use useMemo
