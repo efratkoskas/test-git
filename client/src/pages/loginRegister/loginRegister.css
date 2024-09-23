@@ -1,6 +1,6 @@
 .auth-container {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
@@ -10,6 +10,7 @@
 .auth-container h2 {
     text-align: center;
     margin-bottom: 20px;
+    color: green;
 }
 
 .auth-container form {
@@ -28,7 +29,9 @@
 .auth-container button {
     padding: 10px;
     font-size: 16px;
-    background-color: #007bff;
+    text-align: center;
+    font-size: 1rem;
+    background: green;
     color: white;
     border: none;
     border-radius: 5px;
@@ -36,14 +39,14 @@
 }
 
 .auth-container button:hover {
-    background-color: #0056b3;
+    background-color: green;
 }
 
 .toggle-link {
     text-align: center;
     display: block;
     margin-top: 10px;
-    color: #007bff;
+    color: green;
     cursor: pointer;
     text-decoration: none;
 }

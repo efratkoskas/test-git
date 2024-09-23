@@ -1,32 +1,52 @@
+.the-cart {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px;
+}
+
 .cart-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
     padding: 10px 0;
     flex-direction: column;
+    border: none;
+}
+
+.quantity-and-trash {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 85px;
 }
 
 .quantity-controls {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border: 1px solid #000;
-    padding: 5px;
+    justify-content: space-between;
+    border: none;
+    /* padding: 5px; */
+    margin: 0;
 }
 
 .quantity-controls button,
 .quantity-controls span {
     display: inline-block;
     padding: 5px 10px;
-    border-left: 1px solid #000;
-    border-right: 1px solid #000;
+    /* border-left: 1px solid #000; */
+    /* border-right: 1px solid #000; */
     text-align: center;
     min-width: 30px;
+    border: none;
 }
 
 .quantity-controls button {
-    background: white;
+    background: rgba(0, 128, 0, 0.223);
     cursor: pointer;
 }
 
@@ -40,4 +60,16 @@
 
 .quantity-controls span {
     font-weight: bold;
+}
+
+.cart-item .cart-trash {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 8px;
+}
+
+.cart-item .cart-trash:hover {
+    background: rgba(0, 128, 0, 0.223);
+
 }

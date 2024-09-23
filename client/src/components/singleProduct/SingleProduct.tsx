@@ -46,12 +46,12 @@ const SingleProduct: React.FC<ProductProps> = ({ product, addToCart, addToFavori
                 <div className="product-buttons">
                     {addToCart && (
                         <button onClick={(e) => { e.stopPropagation(); addToCart(product) }}>
-                            <MdOutlineShoppingCart size={20} />
+                            <MdOutlineShoppingCart size={20} color='green' />
                         </button>
                     )}
                     {showFavoriteButton && addToFavorites && (
                         <button onClick={(e) => { e.stopPropagation(); addToFavorites(product) }}>
-                            <FaRegHeart size={20} />
+                            <FaRegHeart size={20} color='green' />
                         </button>
                     )}
                 </div>

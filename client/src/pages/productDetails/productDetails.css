@@ -2,15 +2,13 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-    border: 1px solid #ccc;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     background-color: #fff;
 }
 
 .product-details h1 {
     font-size: 2rem;
-    margin-bottom: 20px;
+    margin: 5px;
     text-align: center;
 }
 
@@ -39,4 +37,22 @@
     font-weight: bold;
     text-align: center;
     margin-top: 20px;
+}
+
+/* New CSS for centering buttons */
+.product-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.product-buttons button {
+    margin: 0 10px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-buttons button:hover {
+    background: rgba(0, 128, 0, 0.223);
 }

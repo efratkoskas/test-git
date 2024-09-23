@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
 import { decreaseQuantity, increaseQuantity, removeFromCart } from '../../redux/slices/cartSlice';
 import { fetchProducts } from '../../redux/slices/productSlice';
+import { FaTrash } from 'react-icons/fa';
 
 const Cart = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -48,27 +49,31 @@ const Cart = () => {
 
     return (
         <div>
-            <h1>Cart</h1>
-            {updatedItems?.length > 0 ? (
-                updatedItems.map(cartItem => (
-                    <div key={cartItem._id} className="cart-item">
-                        <SingleProduct
-                            product={cartItem}
-                            showButtons={true}
-                            showFavoriteButton={true}
-                            addToFavorites={addToFavorites}
-                        />
-                        <div className="quantity-controls">
-                            <button onClick={() => decreaseQuantity(cartItem._id)} disabled={cartItem.quantity === 1}>-</button>
-                            <span>{cartItem.quantity}</span>
-                            <button onClick={() => increaseQuantity(cartItem._id)}>+</button>
+            <h1>My Cart</h1>
+            <div className='the-cart'>
+                {updatedItems?.length > 0 ? (
+                    updatedItems.map(cartItem => (
+                        <div key={cartItem._id} className="cart-item">
+                            <SingleProduct
+                                product={cartItem}
+                                showButtons={true}
+                                showFavoriteButton={true}
+                                addToFavorites={addToFavorites}
+                            />
+                            <div className='quantity'>
+                                <div className="quantity-controls">
+                                    <button onClick={() => decreaseQuantity(cartItem._id)} disabled={cartItem.quantity === 1}>-</button>
+                                    <span>{cartItem.quantity}</span>
+                                    <button onClick={() => increaseQuantity(cartItem._id)}>+</button>
+                                </div>
+                                <button className='cart-trash' onClick={() => removeFromCart(cartItem._id)}><FaTrash size={20} color='green' /></button>
+                            </div>
                         </div>
-                        <button onClick={() => removeFromCart(cartItem._id)}>Remove from Cart</button>
-                    </div>
-                ))
-            ) : (
-                <p>No items in the cart.</p>
-            )}
+                    ))
+                ) : (
+                    <p>No items in the cart.</p>
+                )}
+            </div>
         </div>
     );
 };

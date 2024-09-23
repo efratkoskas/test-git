@@ -2,9 +2,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ccc; */
     padding: 10px 0;
     flex-direction: column;
+    border: none;
 }
 
 .quantity-controls {
@@ -13,25 +14,31 @@
     justify-content: center;
     border: 1px solid #000;
     padding: 5px;
+    border: none;
+    margin: 0;
 }
 
 .quantity-controls button,
 .quantity-controls span {
     display: inline-block;
-    padding: 5px 10px;
-    border-left: 1px solid #000;
-    border-right: 1px solid #000;
+    /* padding: 5px 10px; */
+    /* border-left: 1px solid #000;
+    border-right: 1px solid #000; */
     text-align: center;
     min-width: 30px;
+    border: none;
 }
 
 .quantity-controls button {
-    background: white;
+    background: green;
     cursor: pointer;
+    border-radius: 50%;
+    font-weight: 600;
+    color: white;
 }
 
 .quantity-controls button:hover {
-    background: #f0f0f0;
+    background: rgba(0, 128, 0, 0.223);
 }
 
 .quantity-controls span {

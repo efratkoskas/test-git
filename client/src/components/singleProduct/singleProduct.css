@@ -4,12 +4,12 @@
     align-items: center;
     justify-content: space-between;
     width: 250px;
-    height: 300px;
-    margin: 1rem;
-    padding: 1rem;
-    border: 1px solid #ccc;
+    height: 320px;
+    /* margin: 1rem; */
+    padding: 0.5rem;
+    border: 3px solid green;
     border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
     position: relative;
 }
 
@@ -24,6 +24,7 @@
     font-weight: 600;
     margin: 0;
     text-align: center;
+    color: green;
 }
 
 .text-container {
@@ -71,7 +72,7 @@
 }
 
 .product-buttons button:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 128, 0, 0.223);
 }
 
 .product-price {
@@ -79,6 +80,7 @@
     font-weight: 600;
     margin: 0;
     text-align: center;
+    color: green
 }
 
 .quantity-controls {

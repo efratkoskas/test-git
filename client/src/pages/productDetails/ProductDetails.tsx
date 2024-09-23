@@ -14,10 +14,7 @@ interface Product {
     name: string;
     description: string;
     price: number;
-    category: string;
-    brand: string;
     image: string;
-    countInStock: number;
 }
 
 const ProductDetails: React.FC = () => {
@@ -85,18 +82,13 @@ const ProductDetails: React.FC = () => {
                     <img src={`/assets/images/${product.image}`} alt={product.name} />
                     <p>{product.description}</p>
                     <p>Price: <span className="price">${product.price}</span></p>
-                    <p>Category: <span>{product.category}</span></p>
-                    <p>Brand: <span>{product.brand}</span></p>
-                    <p>In Stock: <span>{product.countInStock}</span></p>
-                    <div className="bottom-container">
-                        <div className="product-buttons">
-                            <button onClick={() => dispatch(addToCart(product))}>
-                                <MdOutlineShoppingCart size={20} />
-                            </button>
-                            <button onClick={() => addToFavorites(product)}>
-                                <FaRegHeart size={20} />
-                            </button>
-                        </div>
+                    <div className="product-buttons">
+                        <button onClick={() => dispatch(addToCart(product))}>
+                            <MdOutlineShoppingCart size={20} color='green' />
+                        </button>
+                        <button onClick={() => addToFavorites(product)}>
+                            <FaRegHeart size={20} color='green' />
+                        </button>
                     </div>
                     {isAdmin && (
                         <>

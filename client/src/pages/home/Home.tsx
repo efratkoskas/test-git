@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AllProducts from '../../components/allProducts/AllProducts';
+import './home.css';
 
 const Home = () => {
     const navigate = useNavigate();
@@ -13,8 +14,8 @@ const Home = () => {
     }, [navigate]);
 
     return (
-        <div>
-            <h1>Welcome to the Home Page</h1>
+        <div className='home-title'>
+            <h1>All products:</h1>
             <AllProducts />
         </div>
     );

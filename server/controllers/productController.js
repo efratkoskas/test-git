@@ -20,7 +20,7 @@ export const searchProducts = async (req, res) => {
 // @route   GET /api/products
 // @access  Public  
 export const getProducts = async (req, res) => {
-    const pageSize = Number(req.query.limit) || 4;
+    const pageSize = Number(req.query.limit) || 8;
     const page = Number(req.query.pageNumber) || 1;
 
     try {

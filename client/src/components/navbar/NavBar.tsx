@@ -4,22 +4,33 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import { BsTelephone } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
-import { IoHomeOutline } from "react-icons/io5";
+import { IoHome, IoHomeOutline } from "react-icons/io5";
 import axios from 'axios';
 import './navBar.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/Store';
 import { setUser } from '../../redux/slices/userSlice';
+import { TbHorseToy } from "react-icons/tb";
+import Slider from 'react-rangeslider'
+import { PiHeartBold, PiHeartStraightBold, PiPhoneBold, PiShoppingCartBold, PiUserBold } from "react-icons/pi";
 
+
+import { MdOutlineToys } from "react-icons/md";
 interface SearchResult {
     _id: string;
     name: string;
 }
 
 const NavBar: React.FC = () => {
+    const SLIDER_VALUES = {
+        MIN_PRICE: 10,
+        MAX_PRICE: 100
+    }
+
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [priceRange, setPriceRange] = useState<number>(40); // State for slider
     const user = useSelector((state: RootState) => state.user.user);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -38,11 +49,11 @@ const NavBar: React.FC = () => {
         return () => {
             window.removeEventListener('storage', handleStorageChange);
         };
-    }, [setUser]);
+    }, [dispatch]);
 
     const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
-        if (e.target.value.length > 0) {
+        if (e.target.value.length > 2) {
             try {
                 const { data } = await axios.get<SearchResult[]>('http://localhost:5000/api/products/search?query=' + e.target.value);
                 setSearchResults(data);
@@ -74,54 +85,77 @@ const NavBar: React.FC = () => {
         navigate('/loginRegister');
     };
 
+    const handleSliderChange = (value: number) => {
+        setPriceRange(value);
+        filterProductsByPrice(value);
+    };
+
+    const filterProductsByPrice = (price: number) => {
+        console.log("Filtering products with max price:", price);
+        // Implement product filtering logic here or trigger an API call
+    };
+
     return (
         <nav className="navbar">
             <ul className="navbar-ul">
                 <div className="left-icons">
                     <li className="navbar-li">
                         <Link to="/cart">
-                            <MdOutlineShoppingCart size={20} />
+                            <MdOutlineShoppingCart size={30} color='green' />
                         </Link>
                     </li>
                     <li className="navbar-li">
                         <Link to="/favoriteItems">
-                            <FaRegHeart size={20} />
+                            <PiHeartStraightBold size={30} color='green' />
                         </Link>
                     </li>
                 </div>
 
                 <div className="center-icon">
-                    <li className="navbar-li">
+                    <li className="navbar-li webIcon">
                         <Link to="/">
-                            <img
-                                className='toyShop-icon'
-                                src="assets/icons/toyShop.svg"
-                                alt="toyShop-icon"
-                                sizes='20px'
-                            />
+                            <div className='webIcon'>
+                                <TbHorseToy size={40} color='red' />ToyStore <MdOutlineToys size={40} color='green' />
+                            </div>
                         </Link>
                     </li>
                 </div>
 
                 <div className="right-icons">
-                    <li className="navbar-li">
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={handleSearchChange}
-                            placeholder="Search products..."
-                        />
-                        {searchResults.length > 0 && (
-                            <ul className="search-results">
-                                {searchResults.map(result => (
-                                    <li key={result._id} onClick={() => handleResultClick(result._id)}>
-                                        {result.name}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        {error && <p className="error-message">{error}</p>}
-                    </li>
+                    <div className="search-and-slider-container">
+                        <li className="navbar-li">
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={handleSearchChange}
+                                placeholder="Search products..."
+                            />
+                            {searchResults.length > 0 && (
+                                <ul className="search-results">
+                                    {searchResults.map(result => (
+                                        <li key={result._id} onClick={() => handleResultClick(result._id)}>
+                                            {result.name}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                            {error && <p className="error-message">{error}</p>}
+                        </li>
+                        <li className="navbar-li slider-container">
+                            <Slider
+                                value={priceRange}
+                                labels={{
+                                    [SLIDER_VALUES.MIN_PRICE]: ` ${SLIDER_VALUES.MIN_PRICE}$`,
+                                    [SLIDER_VALUES.MAX_PRICE]: ` ${SLIDER_VALUES.MAX_PRICE}$`
+                                }}
+                                orientation="horizontal"
+                                onChange={handleSliderChange}
+                                step={1}
+                                max={100}
+                                min={10}
+                            />
+                        </li>
+                    </div>
                     {user ? (
                         <>
                             <li className="navbar-li">Hi, {user.firstName}</li>
@@ -132,25 +166,24 @@ const NavBar: React.FC = () => {
                     ) : (
                         <li className="navbar-li">
                             <Link to="/loginRegister">
-                                <FiUser size={20} />
+                                <PiUserBold size={30} color='green' />
                             </Link>
                         </li>
                     )}
                     <li className="navbar-li">
                         <Link to="/contactUs">
-                            <BsTelephone size={20} />
+                            <PiPhoneBold size={30} color='green' />
                         </Link>
                     </li>
                     <li className="navbar-li">
                         <Link to="/">
-                            <IoHomeOutline size={20} />
+                            <IoHome size={30} color='green' />
                         </Link>
                     </li>
                     {user && user.role === 'admin' && (
                         <li className="navbar-li">
                             <Link to="/add-product">
-                                Add Product
-                            </Link>
+                                +</Link>
                         </li>
                     )}
                 </div>
