@@ -136,7 +136,7 @@ app.use(express.json());
 
 app.use('/api/auth', userRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/orders', verifyToken, orderRoutes);
+app.use('/api/orders', /*verifyToken*/ orderRoutes);
 app.use('/api/cart', cartRoutes); // Use cart routes
 
 const mongoUri = process.env.MONGO_URI;
@@ -151,7 +151,7 @@ mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).send('Something broke!');
+    res.status(500).send({ message: 'Something broke!', error: err.message });
 });
 
 const PORT = process.env.PORT || 5000;

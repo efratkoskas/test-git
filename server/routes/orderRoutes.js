@@ -5,11 +5,11 @@ import { verifyToken, isAdmin } from '../middleware/authMiddleware.js'; // Corre
 const router = express.Router();
 
 router.route('/')
-    .post(verifyToken, addOrderItems)
+    .post(/*verifyToken*/ addOrderItems)
     .get(verifyToken, isAdmin, getOrders);
 
 router.route('/myorders')
-    .get(verifyToken, getMyOrders);
+    .get(/*verifyToken,*/ getMyOrders);
 
 router.route('/:id')
     .get(verifyToken, getOrderById);
