@@ -7,6 +7,7 @@ import React from 'react';
 import Cart from '../pages/cart/Cart';
 import FavoriteItems from '../pages/favoritsItems/FavoriteItems';
 import Home from '../pages/home/Home';
+import MyProfile from '../pages/my profile/MyProfile';
 
 const Routers = () => {
     return (
@@ -14,6 +15,7 @@ const Routers = () => {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/myProfile" element={<MyProfile />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/favoriteItems" element={<FavoriteItems />} />
             <Route path="/loginRegister" element={<LoginRegister />} />

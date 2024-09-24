@@ -13,7 +13,7 @@ import { setUser } from '../../redux/slices/userSlice';
 import { TbHorseToy } from "react-icons/tb";
 import Slider from 'react-rangeslider'
 import { PiHeartBold, PiHeartStraightBold, PiPhoneBold, PiShoppingCartBold, PiUserBold } from "react-icons/pi";
-
+import { CgProfile } from "react-icons/cg";
 
 import { MdOutlineToys } from "react-icons/md";
 interface SearchResult {
@@ -107,6 +107,11 @@ const NavBar: React.FC = () => {
                     <li className="navbar-li">
                         <Link to="/favoriteItems">
                             <PiHeartStraightBold size={30} color='green' />
+                        </Link>
+                    </li>
+                    <li className='navbar-li'>
+                        <Link to="/myProfile">
+                            <CgProfile size={30} color='green' />
                         </Link>
                     </li>
                 </div>
