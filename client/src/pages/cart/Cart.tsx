@@ -62,11 +62,11 @@ const Cart = () => {
                             />
                             <div className='quantity'>
                                 <div className="quantity-controls">
-                                    <button onClick={() => decreaseQuantity(cartItem._id)} disabled={cartItem.quantity === 1}>-</button>
+                                    <button onClick={() => dispatch(decreaseQuantity(cartItem._id))} disabled={cartItem.quantity === 1}>-</button>
                                     <span>{cartItem.quantity}</span>
-                                    <button onClick={() => increaseQuantity(cartItem._id)}>+</button>
+                                    <button onClick={() => dispatch(increaseQuantity(cartItem._id))}>+</button>
                                 </div>
-                                <button className='cart-trash' onClick={() => removeFromCart(cartItem._id)}><FaTrash size={20} color='green' /></button>
+                                <button className='cart-trash' onClick={() => dispatch(removeFromCart(cartItem._id))}><FaTrash size={20} color='green' /></button>
                             </div>
                         </div>
                     ))

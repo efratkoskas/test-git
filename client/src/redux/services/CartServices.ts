@@ -79,14 +79,14 @@ import axios from "axios";
 import { CartItem } from "../slices/cartSlice";
 
 // Helper functions to update cart items
-const _increaseQuantity = (cartItems: CartItem[], idToIncrease: string) =>
+const _increaseQuantity = (cartItems: CartItem[], productIdToIncrease: string) =>
     cartItems.map((item: CartItem) =>
-        item._id === idToIncrease ? { ...item, quantity: item.quantity + 1 } : item
+        item.product === productIdToIncrease ? { ...item, quantity: item.quantity + 1 } : item
     );
 
-const _decreaseQuantity = (cartItems: CartItem[], idToIncrease: string) =>
+const _decreaseQuantity = (cartItems: CartItem[], productIdToIncrease: string) =>
     cartItems.map((item: CartItem) =>
-        item._id === idToIncrease ? { ...item, quantity: item.quantity - 1 } : item
+        item.product === productIdToIncrease ? { ...item, quantity: item.quantity - 1 } : item
     ).filter((item: CartItem) => item.quantity > 0);
 
 class CartService {
@@ -124,27 +124,49 @@ class CartService {
         let updatedCartItems;
 
         if (existingItem) {
-            updatedCartItems = _increaseQuantity(state.cartItems, existingItem._id);
+            updatedCartItems = _increaseQuantity(state.cartItems, existingItem.product);
         } else {
             updatedCartItems = [...state.cartItems, { ...product, quantity: 1, product: product._id }];
         }
 
         await this.saveCartToDatabase(updatedCartItems);
+        return updatedCartItems;
     }
 
     async increaseQuantity(productId: string, state: { cartItems: CartItem[] }) {
         const updatedCartItems = _increaseQuantity(state.cartItems, productId);
         await this.saveCartToDatabase(updatedCartItems);
+        return updatedCartItems;
     }
 
     async decreaseQuantity(productId: string, state: { cartItems: CartItem[] }) {
         const updatedCartItems = _decreaseQuantity(state.cartItems, productId);
         await this.saveCartToDatabase(updatedCartItems);
+        return updatedCartItems;
     }
 
-    async removeFromCart(productId: string, state: { cartItems: CartItem[] }) {
-        const updatedCartItems = state.cartItems.filter((item: CartItem) => item._id !== productId);
-        await this.saveCartToDatabase(updatedCartItems);
+    async removeFromCart(itemId: string) {
+        // const updatedCartItems = state.cartItems.filter((item: CartItem) => item.product !== productId);
+        try {
+            const token = localStorage.getItem('authToken');
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            // if (!token || !user || !user._id) return [];
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                params: { itemId, user: user._id },
+            };
+
+            await axios.delete('http://localhost:5000/api/cart/remove-item', config);
+            toast.success('Removed item from cart');
+            return true;
+        } catch (error) {
+            console.error('Failed to delete cart item:', error);
+            return false;
+        }
+        // return updatedCartItems;
     }
 
     async loadCartFromDatabase(userId: string | undefined) {
