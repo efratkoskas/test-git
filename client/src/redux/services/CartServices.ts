@@ -76,7 +76,7 @@
 import { toast } from "react-toastify";
 import { Product } from "../../components/singleProduct/SingleProduct";
 import axios from "axios";
-import { CartItem } from "../slices/cartSlice";
+import { CartItem, ShippingAddress } from "../slices/cartSlice";
 
 // Helper functions to update cart items
 const _increaseQuantity = (cartItems: CartItem[], productIdToIncrease: string) =>
@@ -187,6 +187,29 @@ class CartService {
         } catch (error) {
             console.error('Failed to load cart from database:', error);
             throw new Error('Failed to load cart');
+        }
+    }
+
+    async createOrder(orderItems: CartItem[], shippingAddress: ShippingAddress, paymentMethod: string) {
+        try {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const token = localStorage.getItem('authToken');
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            };
+
+            const reqBody = {
+                orderItems, userId: user?._id, shippingAddress, paymentMethod
+            };
+
+            const { data } = await axios.post('http://localhost:5000/api/orders', reqBody, config);
+            toast.success('Your Order has been saved successfully');
+            return data;
+        } catch (error) {
+            console.error('Could not save order');
         }
     }
 }

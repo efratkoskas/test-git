@@ -7,6 +7,8 @@ import React from 'react';
 import Cart from '../pages/cart/Cart';
 import FavoriteItems from '../pages/favoritsItems/FavoriteItems';
 import Home from '../pages/home/Home';
+import Checkout from '../pages/checkout/Checkout';
+import UserOrders from '../pages/orders/UserOrders';
 
 const Routers = () => {
     return (
@@ -14,6 +16,8 @@ const Routers = () => {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/orders" element={<UserOrders />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/favoriteItems" element={<FavoriteItems />} />
             <Route path="/loginRegister" element={<LoginRegister />} />

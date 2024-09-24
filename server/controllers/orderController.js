@@ -21,7 +21,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
                 if (!productDetails) {
                     res.status(404).json({ message: 'Product not found' });
                 }
-                totalPrice += productDetails.price * item.qty;
+                totalPrice += (productDetails?.price * item.qty || 0);
             };
 
             const order = new Order({

@@ -54,6 +54,13 @@ export interface CartItem extends Product {
     product: string;
 }
 
+export interface ShippingAddress {
+    address: string,
+    city: string,
+    postalCode: string,
+    country: string
+};
+
 // Define the initial state
 type State = {
     cartItems: CartItem[];
@@ -122,6 +129,15 @@ export const updateCart = createAsyncThunk(
     }
 );
 
+export const placeOrder = createAsyncThunk(
+    'cart/order/create',
+    async ({ orderItems, shippingAddress, paymentMethod }:
+        { orderItems: CartItem[], shippingAddress: ShippingAddress, paymentMethod: string }
+    ) => {
+        return CartService.createOrder(orderItems, shippingAddress, paymentMethod);
+    }
+);
+
 const cartSlice = createSlice({
     name: "cart",
     initialState,
@@ -131,26 +147,10 @@ const cartSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // Add to cart
-        // builder.addCase(addToCart.fulfilled, (state, action) => {
-        //     state.cartItems.push(action.payload);
-        // });
-
-        // Increase quantity
-        // builder.addCase(increaseQuantity.fulfilled, (state, action) => {
-        //     const item = state.cartItems.find((item) => item._id === action.payload);
-        //     if (item) item.quantity += 1;
-        // });
-
-        // Decrease quantity
-        // builder.addCase(decreaseQuantity.fulfilled, (state, action) => {
-        //     const item = state.cartItems.find((item) => item._id === action.payload);
-        //     if (item && item.quantity > 1) {
-        //         item.quantity -= 1;
-        //     } else {
-        //         state.cartItems = state.cartItems.filter((item) => item._id !== action.payload);
-        //     }
-        // });
+        // place order
+        builder.addCase(placeOrder.fulfilled, (state, action) => {
+            state.cartItems.push(action.payload);
+        });
 
         builder.addCase(getCart.fulfilled, (state, action) => {
             state.cartItems = action.payload;
@@ -159,12 +159,6 @@ const cartSlice = createSlice({
         builder.addCase(updateCart.fulfilled, (state, action) => {
             state.cartItems = action.payload;
         })
-
-        // Remove from cart
-        // builder.addCase(removeFromCart.fulfilled, (state, action) => {
-        //     state.cartItems = state.cartItems.filter((item) => item._id !== action.payload);
-        // });
-
     }
 });
 
