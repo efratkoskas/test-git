@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import ProductService from '../services/ProductService';
+import { RootState } from '../Store';
 
 interface Product {
     _id: string;
@@ -13,6 +14,7 @@ interface Product {
 
 interface ProductState {
     products: Product[];
+    filteredProducts: Product[];
     totalItems: number;
     loading: boolean;
     error: string | null;
@@ -22,6 +24,7 @@ interface ProductState {
 
 const initialState: ProductState = {
     products: [],
+    filteredProducts: [],
     page: 0,
     pages: 0,
     totalItems: 0,
@@ -32,9 +35,24 @@ const initialState: ProductState = {
 // Fetch products action using createAsyncThunk
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
-    async ({ page = 0, limit = 0 }: { page?: number; limit?: number }, { rejectWithValue }) => {
+    async ({ page = 0, limit = 0 }: { page?: number; limit?: number; maxPrice?: number }, { dispatch, rejectWithValue }) => {
         try {
-            return ProductService.fetchProducts(page, limit);
+            const fetchedData = await ProductService.fetchProducts(page, limit);
+            // Dispatch the filterProducts action after products are fetched
+            dispatch(filterProducts({}));
+            return fetchedData;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data);
+        }
+    }
+);
+
+export const filterProducts = createAsyncThunk(
+    'products/filterProducts',
+    async ({ maxPrice = 100 }: { minPrice?: number; maxPrice?: number }, { getState, rejectWithValue }) => {
+        try {
+            const state = getState() as RootState;
+            return state.product?.products?.filter((product: Product) => product.price <= maxPrice);
         } catch (error: any) {
             return rejectWithValue(error.response.data);
         }
@@ -54,6 +72,7 @@ export const productSlice = createSlice({
             })
             .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<{ products: Product[]; total: number, page: number, pages: number }>) => {
                 state.products = action.payload.products;
+                state.filteredProducts = action.payload.products;
                 state.totalItems = action.payload.total;
                 state.page = action.payload.page || 0;
                 state.pages = action.payload.pages || 0;
@@ -62,7 +81,10 @@ export const productSlice = createSlice({
             .addCase(fetchProducts.rejected, (state, action: PayloadAction<any>) => {
                 state.error = action.payload;
                 state.loading = false;
-            });
+            })
+            .addCase(filterProducts.fulfilled, (state, action: PayloadAction<Product[]>) => {
+                state.filteredProducts = action.payload;
+            })
     },
 });
 
