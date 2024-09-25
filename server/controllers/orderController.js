@@ -1,31 +1,45 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
+import mongoose from 'mongoose';
+import Product from '../models/productModel.js';
 
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
-    const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
+    const {
+        orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice,
+        shippingPrice, totalPrice, userId
+    } = req.body;
+    try {
+        if (!orderItems || orderItems.length === 0) {
+            res.status(400).json({ message: 'No order items' });
+        } else {
+            let totalPrice = 0;
+            for (const item of orderItems) {
+                const productDetails = await Product.findById(item.product);
+                if (!productDetails) {
+                    res.status(404).json({ message: 'Product not found' });
+                }
+                totalPrice += (productDetails?.price * item.qty || 0);
+            };
 
-    if (orderItems && orderItems.length === 0) {
-        res.status(400);
-        throw new Error('No order items');
-        return;
-    } else {
-        const order = new Order({
-            orderItems,
-            user: req.user._id,
-            shippingAddress,
-            paymentMethod,
-            itemsPrice,
-            taxPrice,
-            shippingPrice,
-            totalPrice
-        });
+            const order = new Order({
+                orderItems,
+                user: userId,
+                shippingAddress,
+                paymentMethod,
+                shippingPrice,
+                totalPrice,
+                isPaid: true,
+            });
 
-        const createdOrder = await order.save();
-
-        res.status(201).json(createdOrder);
+            const createdOrder = await order.save();
+            res.status(201).json(createdOrder);
+        }
+    } catch (error) {
+        console.error('Error in addOrderItems:', error.message);
+        res.status(400).json({ message: 'Invalid order data', error: error.message });
     }
 });
 
@@ -33,7 +47,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 // @route   GET /api/orders/myorders
 // @access  Private
 const getMyOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
+    const orders = await Order.find({ user: mongoose.Types.ObjectId(req.query.user) });
     res.json(orders);
 });
 

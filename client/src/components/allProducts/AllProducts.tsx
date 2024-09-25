@@ -9,7 +9,7 @@ import { fetchProducts } from '../../redux/slices/productSlice';
 
 const AllProducts = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { products, pages } = useSelector((state: RootState) => state.product);
+    const { products, pages, filteredProducts = [] } = useSelector((state: RootState) => state.product);
     const [page, setPage] = useState(1);
     const { addToFavorites } = useFav();
 
@@ -31,7 +31,7 @@ const AllProducts = () => {
     return (
         <div className="all-products-container">
             <div className="all-products">
-                {products?.map(product => (
+                {filteredProducts?.map(product => (
                     <SingleProduct
                         key={product._id}
                         product={product}

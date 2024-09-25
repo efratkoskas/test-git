@@ -15,6 +15,19 @@ export const getCart = async (req, res) => {
     }
 };
 
+export const removeCartItem = async (req, res) => {
+    try {
+        const { itemId, user } = req.query;
+        const cart = await Cart.findOne({ user: mongoose.Types.ObjectId(user) });
+        const removedIndex = cart.items.findIndex(item => item._id.toString() === itemId);
+        cart.items.splice(removedIndex, 1);
+        await cart.save();
+        res.status(200).json({ status: 'success', message: 'Item removed from cart' });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 // @desc    Create a cart
 // @route   POST /api/cart/create
 // @access  Public

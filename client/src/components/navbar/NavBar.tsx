@@ -8,7 +8,7 @@ import { IoHome, IoHomeOutline } from "react-icons/io5";
 import axios from 'axios';
 import './navBar.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../redux/Store';
+import { AppDispatch, RootState } from '../../redux/Store';
 import { setUser } from '../../redux/slices/userSlice';
 import { TbHorseToy } from "react-icons/tb";
 import Slider from 'react-rangeslider'
@@ -16,6 +16,7 @@ import { PiHeartBold, PiHeartStraightBold, PiPhoneBold, PiShoppingCartBold, PiUs
 import { CgProfile } from "react-icons/cg";
 
 import { MdOutlineToys } from "react-icons/md";
+import { filterProducts } from '../../redux/slices/productSlice';
 interface SearchResult {
     _id: string;
     name: string;
@@ -30,10 +31,13 @@ const NavBar: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [priceRange, setPriceRange] = useState<number>(40); // State for slider
+    const [priceRange, setPriceRange] = useState<number>(SLIDER_VALUES.MAX_PRICE); // State for slider
+
     const user = useSelector((state: RootState) => state.user.user);
+    const { products } = useSelector((state: RootState) => state.product);
+
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
         const handleStorageChange = () => {
@@ -50,6 +54,10 @@ const NavBar: React.FC = () => {
             window.removeEventListener('storage', handleStorageChange);
         };
     }, [dispatch]);
+
+    useEffect(() => {
+        setPriceRange(SLIDER_VALUES.MAX_PRICE);
+    }, [products]);
 
     const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
@@ -91,8 +99,7 @@ const NavBar: React.FC = () => {
     };
 
     const filterProductsByPrice = (price: number) => {
-        console.log("Filtering products with max price:", price);
-        // Implement product filtering logic here or trigger an API call
+        dispatch(filterProducts({ maxPrice: price }));
     };
 
     return (

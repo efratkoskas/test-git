@@ -54,6 +54,13 @@ export interface CartItem extends Product {
     product: string;
 }
 
+export interface ShippingAddress {
+    address: string,
+    city: string,
+    postalCode: string,
+    country: string
+};
+
 // Define the initial state
 type State = {
     cartItems: CartItem[];
@@ -68,40 +75,41 @@ const initialState: State = {
 // Async action to add item to the cart
 export const addToCart = createAsyncThunk(
     "cart/addToCart",
-    async (product: Product, { getState }) => {
+    async (product: Product, { getState, dispatch }) => {
         const { cart } = getState() as { cart: State };
-        await CartService.addToCart(product, cart);
-        return { ...product, quantity: 1, product: product._id };
+        const updatedCartItems = await CartService.addToCart(product, cart);
+        dispatch(updateCart(updatedCartItems));
     }
 );
 
 // Async action to increase quantity
 export const increaseQuantity = createAsyncThunk(
     "cart/increaseQuantity",
-    async (productId: string, { getState }) => {
+    async (productId: string, { getState, dispatch }) => {
         const { cart } = getState() as { cart: State };
-        await CartService.increaseQuantity(productId, cart);
-        return productId;
+        const updatedCartItems = await CartService.increaseQuantity(productId, cart);
+        dispatch(updateCart(updatedCartItems));
     }
 );
 
 // Async action to decrease quantity
 export const decreaseQuantity = createAsyncThunk(
     "cart/decreaseQuantity",
-    async (productId: string, { getState }) => {
+    async (productId: string, { getState, dispatch }) => {
         const { cart } = getState() as { cart: State };
-        await CartService.decreaseQuantity(productId, cart);
-        return productId;
+        const updatedCartItems = await CartService.decreaseQuantity(productId, cart);
+        dispatch(updateCart(updatedCartItems));
+        // return productId;
     }
 );
 
 // Async action to remove item from cart
 export const removeFromCart = createAsyncThunk(
     "cart/removeFromCart",
-    async (productId: string, { getState }) => {
-        const { cart } = getState() as { cart: State };
-        await CartService.removeFromCart(productId, cart);
-        return productId;
+    async (itemId: string, { dispatch }) => {
+        // const { cart } = getState() as { cart: State };
+        await CartService.removeFromCart(itemId);
+        dispatch(getCart());
     }
 );
 
@@ -110,6 +118,23 @@ export const getCart = createAsyncThunk(
     async (userId: string | undefined) => {
         const cartItems = await CartService.loadCartFromDatabase(userId);
         return cartItems;
+    }
+);
+
+
+export const updateCart = createAsyncThunk(
+    'cart/update', // sync cart from database 
+    async (cartItems: CartItem[]) => {
+        return cartItems;
+    }
+);
+
+export const placeOrder = createAsyncThunk(
+    'cart/order/create',
+    async ({ orderItems, shippingAddress, paymentMethod }:
+        { orderItems: CartItem[], shippingAddress: ShippingAddress, paymentMethod: string }
+    ) => {
+        return CartService.createOrder(orderItems, shippingAddress, paymentMethod);
     }
 );
 
@@ -122,35 +147,18 @@ const cartSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // Add to cart
-        builder.addCase(addToCart.fulfilled, (state, action) => {
+        // place order
+        builder.addCase(placeOrder.fulfilled, (state, action) => {
             state.cartItems.push(action.payload);
-        });
-
-        // Increase quantity
-        builder.addCase(increaseQuantity.fulfilled, (state, action) => {
-            const item = state.cartItems.find((item) => item._id === action.payload);
-            if (item) item.quantity += 1;
-        });
-
-        // Decrease quantity
-        builder.addCase(decreaseQuantity.fulfilled, (state, action) => {
-            const item = state.cartItems.find((item) => item._id === action.payload);
-            if (item && item.quantity > 1) {
-                item.quantity -= 1;
-            } else {
-                state.cartItems = state.cartItems.filter((item) => item._id !== action.payload);
-            }
         });
 
         builder.addCase(getCart.fulfilled, (state, action) => {
             state.cartItems = action.payload;
         })
 
-        // Remove from cart
-        builder.addCase(removeFromCart.fulfilled, (state, action) => {
-            state.cartItems = state.cartItems.filter((item) => item._id !== action.payload);
-        });
+        builder.addCase(updateCart.fulfilled, (state, action) => {
+            state.cartItems = action.payload;
+        })
     }
 });
 

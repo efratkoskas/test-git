@@ -8,6 +8,8 @@ import Cart from '../pages/cart/Cart';
 import FavoriteItems from '../pages/favoritsItems/FavoriteItems';
 import Home from '../pages/home/Home';
 import MyProfile from '../pages/my profile/MyProfile';
+import Checkout from '../pages/checkout/Checkout';
+import UserOrders from '../pages/orders/UserOrders';
 
 const Routers = () => {
     return (
@@ -16,6 +18,8 @@ const Routers = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/myProfile" element={<MyProfile />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/orders" element={<UserOrders />} />
             <Route path="/contactUs" element={<ContactUs />} />
             <Route path="/favoriteItems" element={<FavoriteItems />} />
             <Route path="/loginRegister" element={<LoginRegister />} />
