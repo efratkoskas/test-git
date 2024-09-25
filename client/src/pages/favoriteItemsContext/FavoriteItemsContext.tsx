@@ -1,4 +1,3 @@
-// FavoriteItemsContext.js
 import React, { createContext, useReducer, useContext, ReactNode, useState } from 'react';
 import { toast } from 'react-toastify';
 import './FavoriteItemsContext.css';

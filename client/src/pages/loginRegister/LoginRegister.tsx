@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './loginRegister.css'; // Import CSS file
+import './loginRegister.css';
 import { setUser } from '../../redux/slices/userSlice';
 import { useDispatch } from 'react-redux';
 
@@ -31,7 +31,7 @@ const LoginRegister: React.FC = () => {
                 const { token, role, ...user } = response.data;
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('user', JSON.stringify({ ...user, role }));
-                dispatch(setUser({ ...user, role })); // Update the user context
+                dispatch(setUser({ ...user, role }));
                 alert('Login successful!');
                 navigate('/home');
             } else {
@@ -58,7 +58,7 @@ const LoginRegister: React.FC = () => {
                 const { token, role, ...user } = response.data;
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('user', JSON.stringify({ ...user, role }));
-                dispatch(setUser({ ...user, role })); // Update the user context
+                dispatch(setUser({ ...user, role }));
                 alert('Registration successful!');
                 navigate('/home'); // Redirect to home after successful registration
             } else {

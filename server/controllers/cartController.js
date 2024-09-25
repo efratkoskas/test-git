@@ -37,7 +37,7 @@ export const createCart = async (req, res) => {
     const cart = new Cart({
 
         items,
-        user, // Ensure this is correct
+        user,
     });
 
     try {

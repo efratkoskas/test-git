@@ -39,11 +39,9 @@
     margin-top: 20px;
 }
 
-/* New CSS for centering buttons */
 .product-buttons {
     display: flex;
     justify-content: center;
-    /* margin-top: 0; */
 }
 
 .product-buttons button {
@@ -65,7 +63,6 @@
     border-radius: 10px;
     color: white;
     margin: 0 10px;
-    /* margin: 5px; */
 }
 
 .detail-button:hover {

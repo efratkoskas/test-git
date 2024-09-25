@@ -46,7 +46,6 @@
     transition: background 0.3s;
 }
 
-/* Applying hover effect to all links except those inside .webIcon */
 .navbar-ul li:not(.webIcon) a:hover {
     background: rgba(0, 128, 0, 0.223);
 }
@@ -168,11 +167,6 @@ input[type="range"]:hover {
 .search-and-slider-container .slider-container {
     width: 300px;
 }
-
-/* .rangeslider-horizontal {
-    height: 3px;
-    border-radius: 10px;
-} */
 
 .rangeslider__labels .rangeslider__label-item {
     position: absolute;

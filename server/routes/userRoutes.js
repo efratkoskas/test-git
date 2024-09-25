@@ -1,28 +1,3 @@
-// import express from 'express';
-// import { registerUser, loginUser, saveCart, getCart } from '../controllers/userController.js';
-// import { verifyToken } from '../middleware/authMiddleware.js';
-
-// const router = express.Router();
-
-// router.post('/register', registerUser);
-// router.post('/login', loginUser);
-// router.post('/saveCart', verifyToken, saveCart);
-// router.get('/getCart/:userId', verifyToken, getCart);
-
-// export default router;
-
-
-
-
-
-
-
-
-
-
-
-
-
 import express from 'express';
 import { registerUser, loginUser, saveCart, getCart } from '../controllers/userController.js';
 import { verifyToken } from '../middleware/authMiddleware.js';

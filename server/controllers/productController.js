@@ -73,7 +73,7 @@ export const createProduct = async (req, res) => {
         brand,
         category,
         countInStock,
-        user: req.user.userId, // Ensure this is correct
+        user: req.user.userId,
     });
 
     try {

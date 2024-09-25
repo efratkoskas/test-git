@@ -23,7 +23,6 @@ const ProductDetails: React.FC = () => {
     const [product, setProduct] = useState<Product | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    // const { addToCart } = useCart();
     const { addToFavorites } = useFav();
     const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
