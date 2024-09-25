@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { Product } from "../../components/singleProduct/SingleProduct";
 import axios from "axios";
 import { CartItem, ShippingAddress } from "../slices/cartSlice";
+import apiClient from "../../utils/api";
 
 // Helper functions to update cart items
 const _increaseQuantity = (cartItems: CartItem[], productIdToIncrease: string) =>
@@ -36,7 +37,7 @@ class CartService {
                 })),
             };
 
-            await axios.post('http://localhost:5000/api/cart/save', dataToSend, config);
+            await apiClient.post('http://localhost:5000/api/cart/save', dataToSend, config);
             toast.success('Cart saved successfully');
         } catch (error) {
             toast.error('Failed to save cart to database');
@@ -82,7 +83,7 @@ class CartService {
                 params: { itemId, user: user._id },
             };
 
-            await axios.delete('http://localhost:5000/api/cart/remove-item', config);
+            await apiClient.delete('http://localhost:5000/api/cart/remove-item', config);
             toast.success('Removed item from cart');
             return true;
         } catch (error) {
@@ -104,7 +105,7 @@ class CartService {
                 params: { user: userId || user._id },
             };
 
-            const { data } = await axios.get('http://localhost:5000/api/cart', config);
+            const { data } = await apiClient.get('http://localhost:5000/api/cart', config);
             return data.items || [];
         } catch (error) {
             console.error('Failed to load cart from database:', error);
@@ -127,9 +128,27 @@ class CartService {
                 orderItems, userId: user?._id, shippingAddress,
             };
 
-            const { data } = await axios.post('http://localhost:5000/api/orders', reqBody, config);
-            toast.success('Your Order has been saved successfully');
+            const { data } = await apiClient.post('http://localhost:5000/api/orders', reqBody, config);
             return data;
+        } catch (error) {
+            console.error('Could not save order');
+        }
+    }
+
+    async clearCart() {
+        try {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const token = localStorage.getItem('authToken');
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                params: { userId: user._id },
+            };
+
+            const resp = await apiClient.delete('http://localhost:5000/api/cart/clear', config);
+            return resp.data;
         } catch (error) {
             console.error('Could not save order');
         }

@@ -5,10 +5,8 @@ import Product from '../models/productModel.js';
 // @access  Public
 export const searchProducts = async (req, res) => {
     const query = req.query.query || '';
-    console.log('Search query:', query);
     try {
         const products = await Product.find({ name: { $regex: query, $options: 'i' } }).limit(10);
-        console.log('Products found:', products);
         res.json(products);
     } catch (error) {
         console.error('Error in searchProducts:', error.message);
@@ -20,11 +18,11 @@ export const searchProducts = async (req, res) => {
 // @route   GET /api/products
 // @access  Public  
 export const getProducts = async (req, res) => {
-    const pageSize = Number(req.query.limit) || 8;
     const page = Number(req.query.pageNumber) || 1;
 
     try {
         const count = await Product.countDocuments({});
+        const pageSize = Number(req.query.limit) === -1 ? count : (Number(req.query.limit) || 8);
         const products = await Product.find({})
             .limit(pageSize)
             .skip(pageSize * (page - 1));

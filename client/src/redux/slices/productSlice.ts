@@ -76,6 +76,7 @@ export const productSlice = createSlice({
                 state.page = action.payload.page || 0;
                 state.pages = action.payload.pages || 0;
                 state.loading = false;
+                console.log('get prodycts again', action.payload.products?.length);
             })
             .addCase(fetchProducts.rejected, (state, action: PayloadAction<any>) => {
                 state.error = action.payload;

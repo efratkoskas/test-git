@@ -17,8 +17,8 @@ app.use(express.json());
 
 app.use('/api/auth', userRoutes);
 app.use('/api/products', productRoutes);
-app.use('/api/orders', /*verifyToken*/ orderRoutes);
-app.use('/api/cart', cartRoutes);
+app.use('/api/orders', verifyToken, orderRoutes);
+app.use('/api/cart', verifyToken, cartRoutes);
 
 const mongoUri = process.env.MONGO_URI;
 if (!mongoUri) {

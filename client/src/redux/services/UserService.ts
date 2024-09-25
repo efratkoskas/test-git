@@ -1,4 +1,4 @@
-import axios from "axios";
+import apiClient from "../../utils/api";
 
 class UserSlice {
 
@@ -16,7 +16,7 @@ class UserSlice {
                 }
             };
 
-            const { data } = await axios.get('http://localhost:5000/api/orders/myorders', config);
+            const { data } = await apiClient.get('http://localhost:5000/api/orders/myorders', config);
             return data;
         } catch (error) {
             console.error('Could not save order');

@@ -21,7 +21,9 @@ const AllProducts = () => {
                 console.error("Error fetching products:", error);
             }
         };
-        fetchProductList();
+        if (window.location?.pathname === '/' || window.location?.pathname === '/home') {
+            fetchProductList();
+        }
     }, [page]);
 
     const createPageArray = (num: number) => {

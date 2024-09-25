@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import User from '../models/userModel.js';
 
 const generateToken = (userId) => {
-    return jwt.sign({ userId }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ userId }, process.env.TOKEN_SECRET, { expiresIn: '5h' });
 };
 
 export const registerUser = async (req, res) => {
@@ -25,11 +25,11 @@ export const registerUser = async (req, res) => {
             lastName,
             email,
             password,
-            token: crypto.randomBytes(16).toString('hex')
         });
 
         const salt = await bcrypt.genSalt(10);
         newUser.password = await bcrypt.hash(password, salt);
+        newUser.token = generateToken(newUser._id + "" + email);
 
         const savedUser = await newUser.save();
         const token = savedUser.token;

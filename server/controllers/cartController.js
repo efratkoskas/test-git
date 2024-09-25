@@ -8,7 +8,6 @@ export const getCart = async (req, res) => {
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
-        console.log('cart user', cart.user, 'cart items', cart.items?.length);
         res.json(cart);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
@@ -19,7 +18,10 @@ export const removeCartItem = async (req, res) => {
     try {
         const { itemId, user } = req.query;
         const cart = await Cart.findOne({ user: mongoose.Types.ObjectId(user) });
-        const removedIndex = cart.items.findIndex(item => item._id.toString() === itemId);
+        const removedIndex = cart.items.findIndex(item => item.product.toString() === itemId);
+        if (removedIndex === -1) {
+            return res.status(500).json({ message: 'Item not found in cart' });
+        }
         cart.items.splice(removedIndex, 1);
         await cart.save();
         res.status(200).json({ status: 'success', message: 'Item removed from cart' });
@@ -86,7 +88,7 @@ export const addToCart = async (req, res) => {
 
 export const clearCart = async (req, res) => {
     try {
-        const { userId } = req.params;
+        const { userId } = req.query || {};
         const cart = await Cart.findOneAndDelete({ user: mongoose.Types.ObjectId(userId) });
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });

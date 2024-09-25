@@ -112,8 +112,10 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
-import { placeOrder, ShippingAddress } from '../../redux/slices/cartSlice';
+import { clearCart, placeOrder, ShippingAddress } from '../../redux/slices/cartSlice';
 import './checkout.css';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Checkout: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
@@ -126,7 +128,7 @@ const Checkout: React.FC = () => {
     });
 
     const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-
+    const navigate = useNavigate();
     const handleShippingChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setShippingAddress((prev) => ({ ...prev, [name]: value }));
@@ -142,7 +144,15 @@ const Checkout: React.FC = () => {
         dispatch(placeOrder({
             orderItems: cartItems,
             shippingAddress: shippingAddress,
-        }));
+        })).then((result) => {
+            if (result.meta.requestStatus === 'fulfilled') {
+                setTimeout(() => {
+                    navigate('/home');
+                    toast.success('Your Order has been saved successfully');
+                    dispatch(clearCart());
+                }, 1000);
+            }
+        });
     };
 
     return (
