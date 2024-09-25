@@ -4,7 +4,7 @@ import SingleProduct from '../../components/singleProduct/SingleProduct';
 import { useFav } from '../favoriteItemsContext/FavoriteItemsContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
-import { decreaseQuantity, increaseQuantity, removeFromCart } from '../../redux/slices/cartSlice';
+import { decreaseQuantity, getCart, increaseQuantity, removeFromCart } from '../../redux/slices/cartSlice';
 import { fetchProducts } from '../../redux/slices/productSlice';
 import { FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ const Cart = () => {
             }
         };
         fetchProductList();
+        dispatch(getCart());
     }, [products?.length, fetchProducts, totalItems]);
 
 

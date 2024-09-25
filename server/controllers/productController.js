@@ -5,10 +5,8 @@ import Product from '../models/productModel.js';
 // @access  Public
 export const searchProducts = async (req, res) => {
     const query = req.query.query || '';
-    console.log('Search query:', query);
     try {
         const products = await Product.find({ name: { $regex: query, $options: 'i' } }).limit(10);
-        console.log('Products found:', products);
         res.json(products);
     } catch (error) {
         console.error('Error in searchProducts:', error.message);

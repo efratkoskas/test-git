@@ -4,15 +4,18 @@ import { FavProvider } from './pages/favoriteItemsContext/FavoriteItemsContext';
 import { Provider } from 'react-redux'
 import AppContent from './AppContent';
 import store from './redux/Store';
+import { JWTExceptionProvider } from './utils/JWTExceptionContext';
 
 function App() {
   return (
     <Provider store={store}>
-      <FavProvider>
-        <div className="App">
-          <AppContent />
-        </div>
-      </FavProvider>
+      <JWTExceptionProvider>
+        <FavProvider>
+          <div className="App">
+            <AppContent />
+          </div>
+        </FavProvider>
+      </JWTExceptionProvider>
     </Provider>
   );
 }

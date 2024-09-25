@@ -76,6 +76,7 @@ import Footer from './components/footer/Footer';
 const AppContent: React.FC = () => {
     const navigate = useNavigate();
     const user = useSelector((state: RootState) => state.user.user);
+    // const cartItems = useSelector((state: RootState) => state.cart?.cartItems);
     const dispatch: AppDispatch = useDispatch();
 
     useEffect(() => {
@@ -87,7 +88,6 @@ const AppContent: React.FC = () => {
             if (!user || user._id !== parsedUser._id) {
                 dispatch(setUser(parsedUser)); // Only set user if it's not already set
             }
-            dispatch(getCart(user?._id));
         } else {
             navigate('/loginRegister'); // Redirect to login if no token
         }

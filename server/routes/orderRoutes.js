@@ -1,17 +1,17 @@
 import express from 'express';
 import { addOrderItems, getMyOrders, getOrderById, getOrders } from '../controllers/orderController.js';
-import { verifyToken, isAdmin } from '../middleware/authMiddleware.js'; // Correct import
+import { isAdmin } from '../middleware/authMiddleware.js'; // Correct import
 
 const router = express.Router();
 
 router.route('/')
-    .post(/*verifyToken*/ addOrderItems)
-    .get(verifyToken, isAdmin, getOrders);
+    .post(addOrderItems)
+    .get(isAdmin, getOrders);
 
 router.route('/myorders')
-    .get(/*verifyToken,*/ getMyOrders);
+    .get(getMyOrders);
 
 router.route('/:id')
-    .get(verifyToken, getOrderById);
+    .get(getOrderById);
 
 export default router;

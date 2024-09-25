@@ -8,7 +8,6 @@ export const getCart = async (req, res) => {
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
-        console.log('cart user', cart.user, 'cart items', cart.items?.length);
         res.json(cart);
     } catch (error) {
         res.status(500).json({ message: 'Server error' });

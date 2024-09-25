@@ -1,21 +1,22 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/userModel.js';
-
 export const verifyToken = (req, res, next) => {
-    const token = req.header('Authorization')?.split(' ')[1];
+    const token = req.header('Authorization')?.split(' ')[1]; // Extract the token
 
     if (!token) {
-        return res.status(401).send('Access Denied');
+        return res.status(401).send('Access Denied'); // No token provided
     }
 
-    try {
-        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
-        req.user = verified;
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => { // Only call split once
+        if (err) {
+            if (err.name === 'TokenExpiredError') {
+                return res.status(405).json({ message: 'Token expired' });
+            }
+            return res.status(401).json({ message: 'Invalid token' });
+        }
+        req.user = decoded; // Save the decoded user information for further use
         next();
-    } catch (err) {
-        console.error('invalid suer', err);
-        res.status(400).send('Invalid Token');
-    }
+    });
 };
 
 export const isAdmin = async (req, res, next) => {
