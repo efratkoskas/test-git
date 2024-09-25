@@ -25,34 +25,34 @@ const MyProfile = () => {
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const userId = localStorage.getItem('userId');
-                const token = localStorage.getItem('authToken');
+    // useEffect(() => {
+    //     const fetchUserData = async () => {
+    //         try {
+    //             const userId = localStorage.getItem('userId');
+    //             const token = localStorage.getItem('authToken');
 
-                if (!userId || !token) {
-                    throw new Error('User not authenticated');
-                }
-                const config = JSON.parse(localStorage.getItem('config') || '{}');
-                const response = await axios.get(`${config?.REACT_APP_BASE_URL}/api/users/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+    //             if (!userId || !token) {
+    //                 throw new Error('User not authenticated');
+    //             }
+    //             const config = JSON.parse(localStorage.getItem('config') || '{}');
+    //             const response = await axios.get(`${config?.REACT_APP_BASE_URL}/api/users/${userId}`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             });
 
-                setUserData(response.data);
-            } catch (error) {
-                console.error('Failed to fetch user data:', error);
-                if ((error as Error).message === 'User not authenticated') {
-                    alert('You must be logged in to access your profile');
-                    navigate('/login');  // Navigate to login page
-                }
-            }
-        };
+    //             setUserData(response.data);
+    //         } catch (error) {
+    //             console.error('Failed to fetch user data:', error);
+    //             if ((error as Error).message === 'User not authenticated') {
+    //                 alert('You must be logged in to access your profile');
+    //                 navigate('/login');  // Navigate to login page
+    //             }
+    //         }
+    //     };
 
-        fetchUserData();
-    }, [navigate]);
+    //     fetchUserData();
+    // }, [navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
