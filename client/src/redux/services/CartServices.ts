@@ -206,7 +206,25 @@ class CartService {
             };
 
             const { data } = await axios.post('http://localhost:5000/api/orders', reqBody, config);
-            toast.success('Your Order has been saved successfully');
+            return data;
+        } catch (error) {
+            console.error('Could not save order');
+        }
+    }
+
+    async clearCart() {
+        try {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            const token = localStorage.getItem('authToken');
+
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                params: { userId: user._id },
+            };
+
+            const { data } = await axios.delete('http://localhost:5000/api/cart/clear', config);
             return data;
         } catch (error) {
             console.error('Could not save order');

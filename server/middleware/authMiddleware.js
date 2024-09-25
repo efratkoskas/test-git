@@ -13,6 +13,7 @@ export const verifyToken = (req, res, next) => {
         req.user = verified;
         next();
     } catch (err) {
+        console.error('invalid suer', err);
         res.status(400).send('Invalid Token');
     }
 };

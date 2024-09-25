@@ -138,18 +138,29 @@ export const placeOrder = createAsyncThunk(
     }
 );
 
+export const clearCart = createAsyncThunk(
+    'cart/clear',
+    async () => {
+        CartService.clearCart();
+    }
+);
+
 const cartSlice = createSlice({
     name: "cart",
     initialState,
     reducers: {
-        clearCart: (state) => {
-            state.cartItems = [];
-        }
+        // clearCart: (state) => {
+        //     state.cartItems = [];
+        // }
     },
     extraReducers: (builder) => {
         // place order
         builder.addCase(placeOrder.fulfilled, (state, action) => {
             state.cartItems.push(action.payload);
+        });
+
+        builder.addCase(clearCart.fulfilled, (state, action) => {
+            state.cartItems = [];
         });
 
         builder.addCase(getCart.fulfilled, (state, action) => {
@@ -162,5 +173,5 @@ const cartSlice = createSlice({
     }
 });
 
-export const { clearCart } = cartSlice.actions;
+// export const { clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

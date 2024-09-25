@@ -14,7 +14,8 @@ export default function UserOrders() {
     const orders = useSelector((state: RootState) => state.user.orders) || [];
 
     useEffect(() => {
-        dispatch(fetchProducts({ page: 1 }));
+        // if (!totalItems || products.length < totalItems) {
+        dispatch(fetchProducts({ page: 1, limit: -1 }));
         dispatch(getOrder());
     }, []);
 

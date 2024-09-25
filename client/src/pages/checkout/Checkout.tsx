@@ -1,8 +1,10 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
-import { placeOrder, ShippingAddress } from '../../redux/slices/cartSlice';
+import { clearCart, placeOrder, ShippingAddress } from '../../redux/slices/cartSlice';
 import './checkout.css';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 // import { useHistory } from 'react-router-dom'; // or useNavigate for react-router v6
 // import { RootState } from '../store'; // Your Redux store types
 // import { addOrderItems } from '../actions/orderActions'; // Import your action
@@ -28,6 +30,7 @@ const Checkout: React.FC = () => {
 
     const cartItems = useSelector((state: RootState) => state.cart.cartItems); // Typed state
     const userInfo = useSelector((state: RootState) => state.user);
+    const navigate = useNavigate();
 
     const handleShippingChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -56,7 +59,15 @@ const Checkout: React.FC = () => {
             orderItems: cartItems,
             shippingAddress: shippingAddress,
             paymentMethod: paymentMethod
-        }));
+        })).then((result) => {
+            if (result.meta.requestStatus === 'fulfilled') {
+                setTimeout(() => {
+                    navigate('/home');
+                    toast.success('Your Order has been saved successfully');
+                    dispatch(clearCart());
+                }, 1000);
+            }
+        });
     };
 
     return (

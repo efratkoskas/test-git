@@ -20,11 +20,11 @@ export const searchProducts = async (req, res) => {
 // @route   GET /api/products
 // @access  Public  
 export const getProducts = async (req, res) => {
-    const pageSize = Number(req.query.limit) || 8;
     const page = Number(req.query.pageNumber) || 1;
 
     try {
         const count = await Product.countDocuments({});
+        const pageSize = Number(req.query.limit) === -1 ? count : (Number(req.query.limit) || 8);
         const products = await Product.find({})
             .limit(pageSize)
             .skip(pageSize * (page - 1));

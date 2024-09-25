@@ -7,12 +7,14 @@ import { AppDispatch, RootState } from '../../redux/Store';
 import { decreaseQuantity, increaseQuantity, removeFromCart } from '../../redux/slices/cartSlice';
 import { fetchProducts } from '../../redux/slices/productSlice';
 import { FaTrash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const dispatch: AppDispatch = useDispatch();
     const { products, totalItems } = useSelector((state: RootState) => state.product);
     const { addToFavorites } = useFav();
     const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProductList = async () => {
@@ -31,7 +33,7 @@ const Cart = () => {
     const defaultProduct = { name: '', description: '', image: '', price: 0 };
 
     const getItems = () => {
-        return cartItems.map(cartItem => {
+        return cartItems?.map(cartItem => {
             const product = products.find(p => p._id === cartItem.product || p._id === cartItem._id) || defaultProduct;
             return {
                 ...cartItem,
@@ -74,6 +76,11 @@ const Cart = () => {
                     <p>No items in the cart.</p>
                 )}
             </div>
+            {cartItems?.length > 0 && <button
+                className='checkoutButton'
+                type="submit"
+                onClick={() => navigate('/checkout')}>Checkout</button>
+            }
         </div>
     );
 };

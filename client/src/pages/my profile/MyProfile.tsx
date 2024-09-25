@@ -230,10 +230,10 @@ const MyProfile = () => {
                 setUserData(response.data);
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
-                if ((error as Error).message === 'User not authenticated') {
-                    alert('You must be logged in to access your profile');
-                    navigate('/login');  // Navigate to login page
-                }
+                // if ((error as Error).message === 'User not authenticated') {
+                //     alert('You must be logged in to access your profile');
+                //     navigate('/login');  // Navigate to login page
+                // }
             }
         };
 
