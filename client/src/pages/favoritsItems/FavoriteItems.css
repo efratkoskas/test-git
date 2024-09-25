@@ -1,4 +1,20 @@
+.the-favorite {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
+}
+
 .fav-item {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.favorite-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -7,36 +23,63 @@
     border: none;
 }
 
-.quantity-controls {
+.quantity-and-trash {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #000;
-    padding: 5px;
+    flex-direction: row;
+    gap: 85px;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border: none;
     margin: 0;
+}
+
+.favorite-trash {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 8px;
 }
 
 .quantity-controls button,
 .quantity-controls span {
     display: inline-block;
+    padding: 5px 10px;
     text-align: center;
     min-width: 30px;
     border: none;
 }
 
 .quantity-controls button {
-    background: green;
+    background: rgba(0, 128, 0, 0.223);
     cursor: pointer;
-    border-radius: 50%;
-    font-weight: 600;
-    color: white;
 }
 
 .quantity-controls button:hover {
-    background: rgba(0, 128, 0, 0.223);
+    background: #f0f0f0;
+}
+
+.quantity-controls button:disabled {
+    cursor: not-allowed;
 }
 
 .quantity-controls span {
     font-weight: bold;
+}
+
+.favorite-item .favorite-trash {
+    background: none;
+    border: none;
+    border-radius: 50%;
+    padding: 5px 8px;
+}
+
+.favorite-item .favorite-trash:hover {
+    background: rgba(0, 128, 0, 0.223);
+
 }

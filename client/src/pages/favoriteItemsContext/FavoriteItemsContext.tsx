@@ -68,20 +68,6 @@ export const FavProvider: React.FC<FavProviderProps> = ({ children }) => {
         }
     };
 
-    const confirmAddToFav = () => {
-        if (productToAdd) {
-            dispatch({ type: 'INCREASE_QUANTITY', payload: productToAdd._id });
-            toast.success('Item added to fav');
-        }
-        setModalVisible(false);
-        setProductToAdd(null);
-    };
-
-    const cancelAddToFav = () => {
-        setModalVisible(false);
-        setProductToAdd(null);
-    };
-
     const removeFromFav = (productId: string) => {
         dispatch({ type: 'REMOVE_FROM_FAV', payload: productId });
         toast.warn('Item removed from Fav');
@@ -103,15 +89,6 @@ export const FavProvider: React.FC<FavProviderProps> = ({ children }) => {
     return (
         <FavContext.Provider value={{ ...state, removeFromFav, increaseQuantity, decreaseQuantity, addToFavorites, removeFromFavorites }}>
             {children}
-            {modalVisible && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <p>You have this product already in the fav. Are you sure you want to add one more?</p>
-                        <button onClick={confirmAddToFav}>Yes</button>
-                        <button onClick={cancelAddToFav}>No</button>
-                    </div>
-                </div>
-            )}
         </FavContext.Provider>
     );
 };

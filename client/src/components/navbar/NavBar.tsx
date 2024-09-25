@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { MdAdd, MdOutlineShoppingCart } from "react-icons/md";
-import { FaRegHeart } from "react-icons/fa";
-import { BsTelephone } from "react-icons/bs";
-import { FiUser } from "react-icons/fi";
-import { IoHome, IoHomeOutline } from "react-icons/io5";
 import axios from 'axios';
 import './navBar.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
 import { setUser } from '../../redux/slices/userSlice';
-import { TbHorseToy } from "react-icons/tb";
 import Slider from 'react-rangeslider'
-import { PiHeartBold, PiHeartStraightBold, PiPhoneBold, PiShoppingCartBold, PiUserBold } from "react-icons/pi";
-import { CgProfile } from "react-icons/cg";
-
-import { MdOutlineToys } from "react-icons/md";
 import { filterProducts } from '../../redux/slices/productSlice';
+import { PiHeartStraightBold, PiPhoneBold, PiUserBold } from "react-icons/pi";
+import { MdOutlineShoppingCart, MdOutlineToys, MdAdd } from 'react-icons/md';
+import { CgProfile } from "react-icons/cg";
+import { TbHorseToy } from "react-icons/tb";
+import { IoHome } from "react-icons/io5";
 interface SearchResult {
     _id: string;
     name: string;

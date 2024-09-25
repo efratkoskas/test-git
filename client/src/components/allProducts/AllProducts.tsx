@@ -9,7 +9,7 @@ import { fetchProducts } from '../../redux/slices/productSlice';
 
 const AllProducts = () => {
     const dispatch: AppDispatch = useDispatch();
-    const { products, pages, filteredProducts = [] } = useSelector((state: RootState) => state.product);
+    const { pages, filteredProducts = [] } = useSelector((state: RootState) => state.product);
     const [page, setPage] = useState(1);
     const { addToFavorites } = useFav();
 

@@ -3,7 +3,6 @@ import ContactUs from '../pages/contactUs/ContactUs';
 import LoginRegister from '../pages/loginRegister/LoginRegister';
 import ProductDetails from '../pages/productDetails/ProductDetails';
 import ProductForm from '../components/productForm/ProductForm';
-import React from 'react';
 import Cart from '../pages/cart/Cart';
 import FavoriteItems from '../pages/favoritsItems/FavoriteItems';
 import Home from '../pages/home/Home';

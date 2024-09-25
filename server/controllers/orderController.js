@@ -8,8 +8,7 @@ import Product from '../models/productModel.js';
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
     const {
-        orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice,
-        shippingPrice, totalPrice, userId
+        orderItems, shippingAddress, userId
     } = req.body;
     try {
         if (!orderItems || orderItems.length === 0) {
@@ -28,10 +27,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
                 orderItems,
                 user: userId,
                 shippingAddress,
-                paymentMethod,
-                shippingPrice,
                 totalPrice,
-                isPaid: true,
             });
 
             const createdOrder = await order.save();

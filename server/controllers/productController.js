@@ -68,9 +68,6 @@ export const createProduct = async (req, res) => {
         price,
         description,
         image,
-        brand,
-        category,
-        countInStock,
         user: req.user.userId,
     });
 
@@ -97,9 +94,6 @@ export const updateProduct = async (req, res) => {
             product.price = price || product.price;
             product.description = description || product.description;
             product.image = image || product.image;
-            product.brand = brand || product.brand;
-            product.category = category || product.category;
-            product.countInStock = countInStock || product.countInStock;
 
             const updatedProduct = await product.save();
             res.json(updatedProduct);
