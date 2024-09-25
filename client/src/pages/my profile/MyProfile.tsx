@@ -34,8 +34,8 @@ const MyProfile = () => {
                 if (!userId || !token) {
                     throw new Error('User not authenticated');
                 }
-
-                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users/${userId}`, {
+                const config = JSON.parse(localStorage.getItem('config') || '{}');
+                const response = await axios.get(`${config?.REACT_APP_BASE_URL}/api/users/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
