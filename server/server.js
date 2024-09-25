@@ -11,9 +11,7 @@ import { verifyToken } from './middleware/authMiddleware.js';
 dotenv.config();
 
 const app = express();
-app.use(cors({
-    origin: 'http://localhost:3000'
-}));
+app.use(cors()); // This allows requests from any origin
 app.use(express.json());
 
 app.use('/api/auth', userRoutes);

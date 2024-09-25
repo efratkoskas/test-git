@@ -5,7 +5,7 @@ import './navBar.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
 import { setUser } from '../../redux/slices/userSlice';
-import Slider from 'react-rangeslider'
+// import Slider from 'react-rangeslider'
 import { filterProducts } from '../../redux/slices/productSlice';
 import { PiHeartStraightBold, PiPhoneBold, PiUserBold } from "react-icons/pi";
 import { MdOutlineShoppingCart, MdOutlineToys, MdAdd } from 'react-icons/md';
@@ -58,7 +58,8 @@ const NavBar: React.FC = () => {
         setSearchQuery(e.target.value);
         if (e.target.value.length > 2) {
             try {
-                const { data } = await axios.get<SearchResult[]>('http://localhost:5000/api/products/search?query=' + e.target.value);
+                const config = JSON.parse(localStorage.getItem('config') || '{}');
+                const { data } = await axios.get<SearchResult[]>(`${config?.REACT_APP_BASE_URL}/api/products/search?query=` + e.target.value);
                 setSearchResults(data);
                 setError(null);
             } catch (err) {
@@ -149,7 +150,7 @@ const NavBar: React.FC = () => {
                             {error && <p className="error-message">{error}</p>}
                         </li>
                         <li className="navbar-li slider-container">
-                            <Slider
+                            {/* <Slider
                                 value={priceRange}
                                 labels={{
                                     [SLIDER_VALUES.MIN_PRICE]: ` ${SLIDER_VALUES.MIN_PRICE}$`,
@@ -160,7 +161,7 @@ const NavBar: React.FC = () => {
                                 step={1}
                                 max={100}
                                 min={10}
-                            />
+                            /> */}
                         </li>
                     </div>
                     {user ? (

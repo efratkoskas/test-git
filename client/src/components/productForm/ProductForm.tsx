@@ -19,7 +19,8 @@ const ProductForm: React.FC = () => {
         if (id) {
             // Fetch the product details if editing
             const fetchProduct = async () => {
-                const { data } = await axios.get('http://localhost:5000/api/products/${id}');
+                const config = JSON.parse(localStorage.getItem('config') || '{}');
+                const { data } = await axios.get(`${config?.REACT_APP_BASE_URL}/api/products/${id}`);
                 setName(data.name);
                 setDescription(data.description);
                 setPrice(data.price);
@@ -45,12 +46,14 @@ const ProductForm: React.FC = () => {
                 }
             };
 
+            const apiConfig = JSON.parse(localStorage.getItem('config') || '{}');
+
             if (id) {
                 // Edit product
-                await axios.put('http://localhost:5000/api/products/${id}', productData, config);
+                await axios.put(`${apiConfig?.REACT_APP_BASE_URL}/api/products/${id}`, productData, config);
             } else {
                 // Add new product
-                await axios.post('http://localhost:5000/api/products', productData, config);
+                await axios.post(`${apiConfig?.REACT_APP_BASE_URL}/api/products`, productData, config);
             }
             navigate('/home');
         } catch (error) {

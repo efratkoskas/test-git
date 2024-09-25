@@ -30,7 +30,8 @@ const ProductDetails: React.FC = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const { data } = await axios.get<Product>(`http://localhost:5000/api/products/${id}`);
+                const config = JSON.parse(localStorage.getItem('config') || '{}');
+                const { data } = await axios.get<Product>(`${config?.REACT_APP_BASE_URL}/api/products/${id}`);
                 setProduct(data);
                 setLoading(false);
             } catch (err) {
@@ -62,8 +63,8 @@ const ProductDetails: React.FC = () => {
                     'Authorization': `Bearer ${token}`
                 }
             };
-
-            await axios.delete(`http://localhost:5000/api/products/${id}`, config);
+            const apiConfig = JSON.parse(localStorage.getItem('config') || '{}');
+            await axios.delete(`${apiConfig?.REACT_APP_BASE_URL}/api/products/${id}`, config);
             navigate('/home');
         } catch (error) {
             console.error('Error deleting product:', error);

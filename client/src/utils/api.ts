@@ -12,6 +12,8 @@ apiClient.interceptors.request.use(
             // Ensure headers is initialized as AxiosHeaders
             config.headers = AxiosHeaders.from(config.headers || {});
             config.headers.set('Authorization', `Bearer ${token}`);
+            const baseConfigs = JSON.parse(localStorage.getItem('config') || '{}');
+            config.url = `${baseConfigs?.REACT_APP_BASE_URL}/api${config.url}`; // Add base URL to all requests
         }
         return config;
     },

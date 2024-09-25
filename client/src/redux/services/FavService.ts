@@ -35,8 +35,8 @@ class FavoriteService {
                     quantity: item.quantity,
                 })),
             };
-
-            await axios.post('http://localhost:5000/api/favorite/save', dataToSend, config);
+            const apiConfig = JSON.parse(localStorage.getItem('config') || '{}');
+            await axios.post(`${apiConfig?.REACT_APP_BASE_URL}/api/favorite/save`, dataToSend, config);
             toast.success('Favorite saved successfully');
         } catch (error) {
             toast.error('Failed to save favorite to database');
@@ -82,8 +82,8 @@ class FavoriteService {
                 },
                 params: { itemId, user: user._id },
             };
-
-            await axios.delete('http://localhost:5000/api/favorite/remove-item', config);
+            const apiConfig = JSON.parse(localStorage.getItem('config') || '{}');
+            await axios.delete(`${apiConfig?.REACT_APP_BASE_URL}/api/favorite/remove-item`, config);
             toast.success('Removed item from favorite');
             return true;
         } catch (error) {
@@ -104,8 +104,8 @@ class FavoriteService {
                 },
                 params: { user: userId || user._id },
             };
-
-            const { data } = await axios.get('http://localhost:5000/api/favorite', config);
+            const apiConfig = JSON.parse(localStorage.getItem('config') || '{}');
+            const { data } = await axios.get(`${apiConfig?.REACT_APP_BASE_URL}/api/favorite`, config);
             return data.items || [];
         } catch (error) {
             console.error('Failed to load favorite from database:', error);
@@ -127,8 +127,8 @@ class FavoriteService {
             const reqBody = {
                 orderItems, userId: user?._id, shippingAddress,
             };
-
-            const { data } = await axios.post('http://localhost:5000/api/orders', reqBody, config);
+            const apiConfig = JSON.parse(localStorage.getItem('config') || '{}');
+            const { data } = await axios.post(`${apiConfig?.REACT_APP_BASE_URL}/api/orders`, reqBody, config);
             toast.success('Your Order has been saved successfully');
             return data;
         } catch (error) {

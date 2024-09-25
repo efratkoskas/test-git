@@ -16,7 +16,7 @@ class UserSlice {
                 }
             };
 
-            const { data } = await apiClient.get('http://localhost:5000/api/orders/myorders', config);
+            const { data } = await apiClient.get('/orders/myorders', config);
             return data;
         } catch (error) {
             console.error('Could not save order');
