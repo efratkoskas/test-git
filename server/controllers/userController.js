@@ -48,6 +48,33 @@ export const registerUser = async (req, res) => {
     }
 };
 
+export const updateUser = async (req, res) => {
+    const { firstName, lastName, email } = req.body;
+
+    try {
+        const userExists = await User.findOne({ email });
+        if (!userExists) {
+            return res.status(500).json({ message: 'User not found' });
+        }
+
+        userExists.firstName = firstName || userExists.firstName;
+        userExists.lastName = lastName || userExists.lastName;
+        userExists.email = email || userExists.email;
+
+        const savedUser = await userExists.save();
+
+        res.status(201).json({
+            _id: savedUser._id,
+            firstName: savedUser.firstName,
+            lastName: savedUser.lastName,
+            email: savedUser.email,
+        });
+    } catch (error) {
+        console.error('Error updating user:', error.message);
+        res.status(500).json({ message: 'Failed to save user', error: error.message });
+    }
+};
+
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 

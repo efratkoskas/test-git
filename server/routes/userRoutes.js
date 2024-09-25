@@ -1,5 +1,5 @@
 import express from 'express';
-import { registerUser, loginUser, saveCart, getCart } from '../controllers/userController.js';
+import { registerUser, loginUser, saveCart, getCart, updateUser } from '../controllers/userController.js';
 import { verifyToken } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -9,6 +9,9 @@ router.post('/register', registerUser);
 
 // Login user
 router.post('/login', loginUser);
+
+// update user
+router.put('/update', updateUser);
 
 // Save user cart
 router.post('/saveCart', verifyToken, saveCart);
