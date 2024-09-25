@@ -30,7 +30,7 @@ const ProductDetails: React.FC = () => {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                const { data } = await axios.get<Product>(`http://localhost:5000/api/products/${id}`);
+                const { data } = await axios.get<Product>(`${process.env.REACT_APP_BASE_URL}/api/products/${id}`);
                 setProduct(data);
                 setLoading(false);
             } catch (err) {
@@ -63,7 +63,7 @@ const ProductDetails: React.FC = () => {
                 }
             };
 
-            await axios.delete(`http://localhost:5000/api/products/${id}`, config);
+            await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/products/${id}`, config);
             navigate('/home');
         } catch (error) {
             console.error('Error deleting product:', error);

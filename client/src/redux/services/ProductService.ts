@@ -1,9 +1,16 @@
 import axios from "axios";
-
 class ProductService {
     async fetchProducts(page: number, limit: number) {
-        const { data } = await axios.get(`http://localhost:5000/api/products?pageNumber=${page}&limit=${limit}`);
-        return data;
+        try {
+            const config = JSON.parse(localStorage.getItem('config') || '{}');
+            console.log('config ', config);
+            console.log('config 2 ', `${config?.REACT_APP_BASE_URL}/api/products?pageNumber=${page}&limit=${limit}`);
+            const { data } = await axios.get(`${config?.REACT_APP_BASE_URL}/api/products?pageNumber=${page}&limit=${limit}`);
+            return data;
+        } catch (err) {
+            alert(err);
+            return null;
+        }
     }
 }
 

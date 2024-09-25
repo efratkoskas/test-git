@@ -35,7 +35,7 @@ const MyProfile = () => {
                     throw new Error('User not authenticated');
                 }
 
-                const response = await axios.get(`/api/users/${userId}`, {
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/users/${userId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -44,10 +44,10 @@ const MyProfile = () => {
                 setUserData(response.data);
             } catch (error) {
                 console.error('Failed to fetch user data:', error);
-                // if ((error as Error).message === 'User not authenticated') {
-                //     alert('You must be logged in to access your profile');
-                //     navigate('/login');  // Navigate to login page
-                // }
+                if ((error as Error).message === 'User not authenticated') {
+                    alert('You must be logged in to access your profile');
+                    navigate('/login');  // Navigate to login page
+                }
             }
         };
 
@@ -68,7 +68,7 @@ const MyProfile = () => {
                 return;
             }
 
-            await axios.put(`/api/users/${userId}`, userData, {
+            await axios.put(`${process.env.REACT_APP_BASE_URL}/api/users/${userId}`, userData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

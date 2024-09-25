@@ -58,7 +58,7 @@ const NavBar: React.FC = () => {
         setSearchQuery(e.target.value);
         if (e.target.value.length > 2) {
             try {
-                const { data } = await axios.get<SearchResult[]>('http://localhost:5000/api/products/search?query=' + e.target.value);
+                const { data } = await axios.get<SearchResult[]>(`${process.env.REACT_APP_BASE_URL}/api/products/search?query=` + e.target.value);
                 setSearchResults(data);
                 setError(null);
             } catch (err) {

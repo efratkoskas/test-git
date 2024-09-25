@@ -22,7 +22,7 @@ const LoginRegister: React.FC = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/login', {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/login`, {
                 email,
                 password,
             });
@@ -47,7 +47,7 @@ const LoginRegister: React.FC = () => {
 
     const handleRegister = async () => {
         try {
-            const response = await axios.post('http://localhost:5000/api/auth/register', {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/auth/register`, {
                 firstName,
                 lastName,
                 email,

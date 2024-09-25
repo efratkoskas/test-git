@@ -36,7 +36,7 @@ class FavoriteService {
                 })),
             };
 
-            await axios.post('http://localhost:5000/api/favorite/save', dataToSend, config);
+            await axios.post(`${process.env.REACT_APP_BASE_URL}/api/favorite/save`, dataToSend, config);
             toast.success('Favorite saved successfully');
         } catch (error) {
             toast.error('Failed to save favorite to database');
@@ -83,7 +83,7 @@ class FavoriteService {
                 params: { itemId, user: user._id },
             };
 
-            await axios.delete('http://localhost:5000/api/favorite/remove-item', config);
+            await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/favorite/remove-item`, config);
             toast.success('Removed item from favorite');
             return true;
         } catch (error) {
@@ -105,7 +105,7 @@ class FavoriteService {
                 params: { user: userId || user._id },
             };
 
-            const { data } = await axios.get('http://localhost:5000/api/favorite', config);
+            const { data } = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/favorite`, config);
             return data.items || [];
         } catch (error) {
             console.error('Failed to load favorite from database:', error);
@@ -128,7 +128,7 @@ class FavoriteService {
                 orderItems, userId: user?._id, shippingAddress,
             };
 
-            const { data } = await axios.post('http://localhost:5000/api/orders', reqBody, config);
+            const { data } = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/orders`, reqBody, config);
             toast.success('Your Order has been saved successfully');
             return data;
         } catch (error) {
