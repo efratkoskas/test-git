@@ -6,6 +6,7 @@ import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
+import { verifyToken } from './middleware/authMiddleware.js';
 
 dotenv.config();
 
