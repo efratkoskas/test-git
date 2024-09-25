@@ -6,13 +6,12 @@ import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
-import { verifyToken } from './middleware/authMiddleware.js';
 
 dotenv.config();
 
 const app = express();
 app.use(cors({
-    origin: 'http://localhost:3000' // Your client URL
+    origin: 'http://localhost:3000'
 }));
 app.use(express.json());
 

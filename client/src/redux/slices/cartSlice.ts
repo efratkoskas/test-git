@@ -1,50 +1,4 @@
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import { Product } from "../../components/singleProduct/SingleProduct";
 import CartService from "../services/CartServices";
-
-// type State = {
-//     cartItems: CartItem[];
-// };
-
-// const initialState: State = { cartItems: [] };
-
-// export interface CartItem extends Product {
-//     quantity: number;
-//     product: string;
-// }
-
-// // export const addCartItem = createAsyncThunk(
-// //     "cart/add-to-cart",
-// //     async (payload) => {
-// //         const res = await TutorialDataService.create({ title, description });
-// //         return res.data;
-// //     }
-// // );
-
-// export const increaseQuantity = createAsyncThunk(
-//     "cart/increase",
-//     async () => {
-//         return await CartService.increaseQuantity();
-
-//     }
-// );
-
-// const tutorialSlice = createSlice({
-//     name: "cart",
-//     initialState,
-//     extraReducers: {
-//         [addCartItem.fulfilled]: (state: any, action: any) => {
-//             return { ...state, cartItems: [...state.cartItems, action.payload] };
-//         },
-//         [increaseQuantity.fulfilled]: (state: any, action: any) => {
-//             return { ...state, cartItems: [...state.cartItems, action.payload] };
-//         },
-//     },
-// });
-
-// const { reducer } = tutorialSlice;
-// export default reducer;
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { Product } from "../../components/singleProduct/SingleProduct";
 
@@ -107,7 +61,6 @@ export const decreaseQuantity = createAsyncThunk(
 export const removeFromCart = createAsyncThunk(
     "cart/removeFromCart",
     async (itemId: string, { dispatch }) => {
-        // const { cart } = getState() as { cart: State };
         await CartService.removeFromCart(itemId);
         dispatch(getCart());
     }
@@ -131,10 +84,10 @@ export const updateCart = createAsyncThunk(
 
 export const placeOrder = createAsyncThunk(
     'cart/order/create',
-    async ({ orderItems, shippingAddress, paymentMethod }:
-        { orderItems: CartItem[], shippingAddress: ShippingAddress, paymentMethod: string }
+    async ({ orderItems, shippingAddress }:
+        { orderItems: CartItem[], shippingAddress: ShippingAddress }
     ) => {
-        return CartService.createOrder(orderItems, shippingAddress, paymentMethod);
+        return CartService.createOrder(orderItems, shippingAddress);
     }
 );
 

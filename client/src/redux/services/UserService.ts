@@ -1,5 +1,4 @@
 import axios from "axios";
-import { CartItem, ShippingAddress } from "../slices/cartSlice";
 
 class UserSlice {
 

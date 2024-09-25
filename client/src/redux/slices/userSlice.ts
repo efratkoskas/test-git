@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
 import UserService from '../services/UserService';
-import { CartItem, ShippingAddress } from './cartSlice';
+import { CartItem } from './cartSlice';
 
 interface User {
     _id: string;
@@ -12,7 +11,6 @@ interface User {
 }
 
 export interface OrderItem {
-    paymentMethod: string;
     totalAmount: number;
     date: Date,
     isDelivered: boolean;
@@ -42,11 +40,9 @@ export const getOrder = createAsyncThunk(
             date: new Date(item.createdAt),
             totalAmount: item.totalPrice,
             orderItems: item.orderItems,
-            paymentMethod: item.paymentMethod,
             isDelivered: item.isDelivered
         }));
-        // console.log('User orders:', resp);
-        // return resp.orders;
+
     }
 );
 
