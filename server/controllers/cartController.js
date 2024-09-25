@@ -77,7 +77,6 @@ export const addToCart = async (req, res) => {
         }
 
         const savedCart = await cart.save();
-        console.log('saved cart user', savedCart);
         res.json(cart);
     } catch (error) {
         console.error('Error saving cart:', error);

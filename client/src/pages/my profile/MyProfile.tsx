@@ -206,38 +206,38 @@ const MyProfile = () => {
     }, [user]);
 
     const [isEditing, setIsEditing] = useState(false);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const userId = localStorage.getItem('userId');
-                const token = localStorage.getItem('authToken');
+    // useEffect(() => {
+    //     const fetchUserData = async () => {
+    //         try {
+    //             const userId = localStorage.getItem('userId');
+    //             const token = localStorage.getItem('authToken');
 
-                if (!userId || !token) {
-                    throw new Error('User not authenticated');
-                }
+    //             if (!userId || !token) {
+    //                 throw new Error('User not authenticated');
+    //             }
 
-                const response = await axios.get(`/api/users/${userId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+    //             const response = await axios.get(`/api/users/${userId}`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             });
 
-                // console.log('Fetched user data:', response.data);
+    //             // console.log('Fetched user data:', response.data);
 
-                setUserData(response.data);
-            } catch (error) {
-                console.error('Failed to fetch user data:', error);
-                // if ((error as Error).message === 'User not authenticated') {
-                //     alert('You must be logged in to access your profile');
-                //     navigate('/login');  // Navigate to login page
-                // }
-            }
-        };
+    //             setUserData(response.data);
+    //         } catch (error) {
+    //             console.error('Failed to fetch user data:', error);
+    //             // if ((error as Error).message === 'User not authenticated') {
+    //             //     alert('You must be logged in to access your profile');
+    //             //     navigate('/login');  // Navigate to login page
+    //             // }
+    //         }
+    //     };
 
-        fetchUserData();
-    }, [navigate]);
+    //     fetchUserData();
+    // }, [navigate]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -245,15 +245,15 @@ const MyProfile = () => {
 
     const handleSave = async () => {
         try {
-            const userId = localStorage.getItem('userId');
+            const user = localStorage.getItem('user');
             const token = localStorage.getItem('authToken');
 
-            if (!userId || !token) {
+            if (!user || !token) {
                 alert('User is not authenticated');
                 return;
             }
-
-            await axios.put(`/api/users/${userId}`, userData, {
+            const userData = JSON.parse(user);
+            await axios.put(`/api/users/${userData._id}`, userData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
