@@ -81,7 +81,7 @@ const ProductDetails: React.FC = () => {
                     <h1>{product.name}</h1>
                     <img src={`/assets/images/${product.image}`} alt={product.name} />
                     <p>{product.description}</p>
-                    <p>Price: <span className="price">${product.price}</span></p>
+                    <span className="price">${product.price}</span>
                     <div className="product-buttons">
                         <button onClick={() => dispatch(addToCart(product))}>
                             <MdOutlineShoppingCart size={20} color='green' />
@@ -92,8 +92,8 @@ const ProductDetails: React.FC = () => {
                     </div>
                     {isAdmin && (
                         <>
-                            <button onClick={() => navigate(`/edit-product/${product._id}`)}>Edit Product</button>
-                            <button onClick={handleDelete}>Delete Product</button>
+                            <button className='detail-button' onClick={() => navigate(`/edit-product/${product._id}`)}>Edit Product</button>
+                            <button className='detail-button' onClick={handleDelete}>Delete Product</button>
                         </>
                     )}
                 </>

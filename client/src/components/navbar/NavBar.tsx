@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { MdOutlineShoppingCart } from "react-icons/md";
+import { MdAdd, MdOutlineShoppingCart } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
 import { BsTelephone } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
@@ -195,7 +195,7 @@ const NavBar: React.FC = () => {
                     {user && user.role === 'admin' && (
                         <li className="navbar-li">
                             <Link to="/add-product">
-                                +</Link>
+                                <MdAdd /></Link>
                         </li>
                     )}
                 </div>

@@ -1,0 +1,79 @@
+.orderTitle {
+    color: green;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 20px;
+    gap: 20px;
+}
+
+.eachOrder {
+    border: 2px solid #e6e6e6;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* use a larger percentage of the width */
+    max-width: 1260px;
+    /* maximum width to avoid too wide on larger screens */
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.orderDate {
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
+.order ul {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    /* Horizontal layout */
+    align-items: flex-start;
+    /* Align items at the start vertically */
+    justify-content: flex-start;
+    /* Align items at the start horizontally */
+    gap: 20px;
+    /* Increase gap for better spacing */
+    flex-wrap: wrap;
+    /* Allow wrapping */
+    width: 100%;
+}
+
+.order li {
+    display: flex;
+    justify-content: center;
+    flex-basis: 30%;
+    /* Each item takes up to 30% of the ul width */
+    max-width: 300px;
+    /* Maximum width of each product */
+    flex-wrap: wrap;
+}
+
+.totalPrice {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    /* Add margin at the top for spacing */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .order ul {
+        flex-direction: column;
+    }
+
+    .order li {
+        flex-basis: 100%;
+        /* Each item takes full width on smaller screens */
+    }
+}

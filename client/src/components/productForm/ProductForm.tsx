@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import './productForm.css';
 
 const ProductForm: React.FC = () => {
     const [name, setName] = useState('');
@@ -59,15 +60,38 @@ const ProductForm: React.FC = () => {
 
     return (
         <div>
-            <h2>{id ? 'Edit Product' : 'Add New Product'}</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Name" required />
-                <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" required />
-                <input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} placeholder="Price" required />
-                <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} placeholder="Category" required />
-                <input type="text" value={brand} onChange={(e) => setBrand(e.target.value)} placeholder="Brand" required />
-                <input type="number" value={countInStock} onChange={(e) => setCountInStock(Number(e.target.value))} placeholder="Count In Stock" required />
-                <input type="text" value={image} onChange={(e) => setImage(e.target.value)} placeholder="Image URL" required />
+            <h2 className='edit-title'>{id ? 'Edit Product' : 'Add New Product'}</h2>
+            <form
+                className='product-form'
+                onSubmit={handleSubmit}>
+                <input
+                    className='product-form-input'
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Name" required />
+
+                <input
+                    className='product-form-input'
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Description" required />
+
+                <input
+                    className='product-form-input'
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(Number(e.target.value))}
+                    placeholder="Price" required />
+
+                <input
+                    className='product-form-input'
+                    type="text"
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
+                    placeholder="Image URL" required />
+
                 <button type="submit">{id ? 'Update' : 'Add'} Product</button>
             </form>
         </div>

@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
 import { placeOrder, ShippingAddress } from '../../redux/slices/cartSlice';
+import './checkout.css';
 // import { useHistory } from 'react-router-dom'; // or useNavigate for react-router v6
 // import { RootState } from '../store'; // Your Redux store types
 // import { addOrderItems } from '../actions/orderActions'; // Import your action
@@ -61,9 +62,10 @@ const Checkout: React.FC = () => {
     return (
         <div className="checkout-container">
             <h2>Checkout</h2>
-            <form>
-                <h3>Shipping Address</h3>
+            <form className='address'>
+                <h3>Shipping Address:</h3>
                 <input
+                    className='addressDetails'
                     type="text"
                     name="address"
                     placeholder="Address"
@@ -72,6 +74,7 @@ const Checkout: React.FC = () => {
                     required
                 />
                 <input
+                    className='addressDetails'
                     type="text"
                     name="city"
                     placeholder="City"
@@ -80,6 +83,7 @@ const Checkout: React.FC = () => {
                     required
                 />
                 <input
+                    className='addressDetails'
                     type="text"
                     name="postalCode"
                     placeholder="Postal Code"
@@ -88,6 +92,7 @@ const Checkout: React.FC = () => {
                     required
                 />
                 <input
+                    className='addressDetails'
                     type="text"
                     name="country"
                     placeholder="Country"
@@ -96,16 +101,19 @@ const Checkout: React.FC = () => {
                     required
                 />
 
-                <h3>Payment Method</h3>
+                {/* <h3>Payment Method</h3>
                 <select
                     value={paymentMethod}
                     onChange={(e) => setPaymentMethod(e.target.value)}
                 >
                     <option value="PayPal">PayPal</option>
                     <option value="CreditCard">Credit Card</option>
-                </select>
+                </select> */}
 
-                <button type="submit" onClick={handleSubmit}>Place Order</button>
+                <button
+                    className='checkoutButton'
+                    type="submit"
+                    onClick={handleSubmit}>Place Order</button>
             </form>
         </div>
     );

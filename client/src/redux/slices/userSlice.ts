@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import UserService from '../services/UserService';
-import { CartItem } from './cartSlice';
+import { CartItem, ShippingAddress } from './cartSlice';
 
 interface User {
     _id: string;
@@ -37,8 +37,16 @@ const initialState: UserState = {
 export const getOrder = createAsyncThunk(
     "user/orders/get",
     async () => {
-        const { data } = await UserService.getUserOrders();
-        return data.orders;
+        const orders = await UserService.getUserOrders();
+        return orders?.map((item: any): OrderItem => ({
+            date: new Date(item.createdAt),
+            totalAmount: item.totalPrice,
+            orderItems: item.orderItems,
+            paymentMethod: item.paymentMethod,
+            isDelivered: item.isDelivered
+        }));
+        // console.log('User orders:', resp);
+        // return resp.orders;
     }
 );
 

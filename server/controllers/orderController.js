@@ -17,11 +17,11 @@ const addOrderItems = asyncHandler(async (req, res) => {
         } else {
             let totalPrice = 0;
             for (const item of orderItems) {
-                const productDetails = await Product.findById(item.product);
+                const productDetails = await Product.findById(mongoose.Types.ObjectId(item.product));
                 if (!productDetails) {
                     res.status(404).json({ message: 'Product not found' });
                 }
-                totalPrice += (productDetails?.price * item.qty || 0);
+                totalPrice += (productDetails?.price * item.quantity || 0);
             };
 
             const order = new Order({
