@@ -38,7 +38,7 @@ class UserSlice {
                 },
             };
             const req = { firstName, lastName, email };
-            const { data } = await apiClient.put('http://localhost:5000/api/auth/update', req, config);
+            const { data } = await apiClient.put('/auth/update', req, config);
             if (data) {
                 // Update the user in local storage
                 localStorage.removeItem('user');

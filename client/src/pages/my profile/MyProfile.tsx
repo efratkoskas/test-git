@@ -63,10 +63,8 @@ const MyProfile = () => {
         try {
             dispatch(updateUser({ ...userData }));
             setIsEditing(false);
-            alert('Profile updated successfully!');
         } catch (error) {
             console.error('Error updating profile:', error);
-            alert('Failed to update profile');
         }
     };
 
