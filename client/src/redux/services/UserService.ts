@@ -42,7 +42,7 @@ class UserSlice {
             if (data) {
                 // Update the user in local storage
                 localStorage.removeItem('user');
-                localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('user', JSON.stringify(data));
             }
             return data;
         } catch (error) {

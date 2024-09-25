@@ -64,7 +64,6 @@ export const updateUser = async (req, res) => {
         const savedUser = await userExists.save();
 
         res.status(201).json({
-            _id: savedUser._id,
             firstName: savedUser.firstName,
             lastName: savedUser.lastName,
             email: savedUser.email,
