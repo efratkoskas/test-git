@@ -1,0 +1,52 @@
+.contact-container {
+    max-width: 350px;
+    margin: 0px auto;
+}
+
+.contact-container h1 {
+    margin-top: 20px;
+}
+
+.contact-info {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+}
+
+.contact-info-label-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #555;
+    min-width: 100px;
+    padding: 5px;
+    font-size: 16px;
+    border: 2px solid #e6e6e6;
+    border-radius: 4px;
+}
+
+.info-input {
+    margin: 5px;
+    color: #333;
+    font-size: 1rem;
+    width: 100%;
+    padding: 5px;
+    font-size: 16px;
+    border: 2px solid #e6e6e6;
+    border-radius: 4px;
+}
+
+.info-input a {
+    display: block;
+    text-decoration: none;
+    color: green;
+}
+
+.info-input a:hover {
+    color: rgba(0, 128, 0, 0.223);
+}

@@ -5,20 +5,9 @@ import { clearCart, placeOrder, ShippingAddress } from '../../redux/slices/cartS
 import './checkout.css';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-// import { useHistory } from 'react-router-dom'; // or useNavigate for react-router v6
-// import { RootState } from '../store'; // Your Redux store types
-// import { addOrderItems } from '../actions/orderActions'; // Import your action
-
-// interface ShippingAddress {
-//     address: string;
-//     city: string;
-//     postalCode: string;
-//     country: string;
-// }
 
 const Checkout: React.FC = () => {
     const dispatch: AppDispatch = useDispatch();
-    // const history = useHistory();
 
     const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
         address: '',
@@ -41,19 +30,8 @@ const Checkout: React.FC = () => {
         e.preventDefault();
 
         if (!shippingAddress.address || !paymentMethod) {
-            // Handle validation if necessary
             return;
         }
-
-        // const orderData = {
-        //     orderItems: cartItems.map(item => ({
-        //         product: item.product,
-        //         qty: item.qty,
-        //     })),
-        //     shippingAddress,
-        //     paymentMethod,
-        //     userId: userInfo._id, // Assuming user is logged in and user info is available
-        // };
 
         dispatch(placeOrder({
             orderItems: cartItems,
@@ -111,15 +89,6 @@ const Checkout: React.FC = () => {
                     onChange={handleShippingChange}
                     required
                 />
-
-                {/* <h3>Payment Method</h3>
-                <select
-                    value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                >
-                    <option value="PayPal">PayPal</option>
-                    <option value="CreditCard">Credit Card</option>
-                </select> */}
 
                 <button
                     className='checkoutButton'

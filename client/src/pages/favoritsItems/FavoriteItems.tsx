@@ -1,4 +1,3 @@
-// FavoriteItems.js
 import React from 'react';
 import './FavoriteItems.css';
 import SingleProduct from '../../components/singleProduct/SingleProduct';
@@ -23,7 +22,7 @@ const FavoriteItems = () => {
                     </div>
                 ))
             ) : (
-                <p>No items in the fav.</p>
+                <p>No items.</p>
             )}
         </div>
     );

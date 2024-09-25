@@ -47,7 +47,6 @@ const Cart = () => {
     }
 
     const updatedItems = getItems();
-    // Tip: Use useMemo
 
     return (
         <div>
@@ -73,7 +72,7 @@ const Cart = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No items in the cart.</p>
+                    <p>No items.</p>
                 )}
             </div>
             {cartItems?.length > 0 && <button

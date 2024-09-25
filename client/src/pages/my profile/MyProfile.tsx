@@ -188,7 +188,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/Store';
 import { getOrder } from '../../redux/slices/userSlice';
 import { Link } from 'react-router-dom';
-import './myProfile.css';  // Import the CSS file
+import './myProfile.css';
 
 const MyProfile = () => {
     const user = useSelector((state: RootState) => state.user.user);
@@ -224,8 +224,7 @@ const MyProfile = () => {
                     },
                 });
 
-                // Check what's returned from the server
-                console.log('Fetched user data:', response.data);
+                // console.log('Fetched user data:', response.data);
 
                 setUserData(response.data);
             } catch (error) {
