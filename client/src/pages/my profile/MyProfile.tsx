@@ -60,15 +60,15 @@ const MyProfile = () => {
 
     const handleSave = async () => {
         try {
-            const userId = localStorage.getItem('userId');
+            const user = localStorage.getItem('user');
             const token = localStorage.getItem('authToken');
 
-            if (!userId || !token) {
+            if (!user || !token) {
                 alert('User is not authenticated');
                 return;
             }
-
-            await axios.put(`${process.env.REACT_APP_BASE_URL}/api/users/${userId}`, userData, {
+            const userData = JSON.parse(user);
+            await axios.put(`/api/users/${userData._id}`, userData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
