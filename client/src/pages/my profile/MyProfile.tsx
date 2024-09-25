@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from '../../redux/Store';
 import { getOrder } from '../../redux/slices/userSlice';
 import { Link } from 'react-router-dom';
 import './myProfile.css';
+import { updateUser } from '../../redux/slices/userSlice';
 
 const MyProfile = () => {
     const user = useSelector((state: RootState) => state.user.user);
@@ -60,24 +61,10 @@ const MyProfile = () => {
 
     const handleSave = async () => {
         try {
-            const user = localStorage.getItem('user');
-            const token = localStorage.getItem('authToken');
-
-            if (!user || !token) {
-                alert('User is not authenticated');
-                return;
-            }
-            const userData = JSON.parse(user);
-            await axios.put(`/api/users/${userData._id}`, userData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            dispatch(updateUser({ ...userData }));
             setIsEditing(false);
-            alert('Profile updated successfully!');
         } catch (error) {
             console.error('Error updating profile:', error);
-            alert('Failed to update profile');
         }
     };
 

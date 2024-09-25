@@ -46,6 +46,13 @@ export const getOrder = createAsyncThunk(
     }
 );
 
+export const updateUser = createAsyncThunk(
+    "user/update",
+    async ({ firstName, lastName, email }: { firstName: string, lastName: string, email: string }) => {
+        return await UserService.updateUser({ firstName, lastName, email });
+    }
+);
+
 export const userSlice = createSlice({
     name: 'user',
     initialState,
@@ -58,6 +65,10 @@ export const userSlice = createSlice({
         // place order
         builder.addCase(getOrder.fulfilled, (state, action) => {
             state.orders = action.payload;
+        });
+
+        builder.addCase(updateUser.fulfilled, (state, action) => {
+            state.user = action.payload;
         });
     }
 });
