@@ -12,6 +12,7 @@ import { MdOutlineShoppingCart, MdOutlineToys, MdAdd } from 'react-icons/md';
 import { CgProfile } from "react-icons/cg";
 import { TbHorseToy } from "react-icons/tb";
 import { IoHome } from "react-icons/io5";
+import ReactSlider from 'react-slider';
 interface SearchResult {
     _id: string;
     name: string;
@@ -150,18 +151,21 @@ const NavBar: React.FC = () => {
                             {error && <p className="error-message">{error}</p>}
                         </li>
                         <li className="navbar-li slider-container">
-                            {/* <Slider
+                            <ReactSlider
                                 value={priceRange}
-                                labels={{
-                                    [SLIDER_VALUES.MIN_PRICE]: ` ${SLIDER_VALUES.MIN_PRICE}$`,
-                                    [SLIDER_VALUES.MAX_PRICE]: ` ${SLIDER_VALUES.MAX_PRICE}$`
-                                }}
-                                orientation="horizontal"
                                 onChange={handleSliderChange}
                                 step={1}
                                 max={100}
                                 min={10}
-                            /> */}
+                                className="horizontal-slider"
+                                thumbClassName="thumb"
+                                trackClassName="track"
+                            />
+                            <div className="slider-labels">
+                                <span>{SLIDER_VALUES.MIN_PRICE}$</span>
+                                <span>{SLIDER_VALUES.MAX_PRICE}$</span>
+                            </div>
+
                         </li>
                     </div>
                     {user ? (
