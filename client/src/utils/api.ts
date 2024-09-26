@@ -17,7 +17,7 @@ apiClient.interceptors.request.use(
         }
         return config;
     },
-    (error: AxiosError) => Promise.reject(error)
+    (error: AxiosError) => Promise.reject(error) //
 );
 
 // Intercept responses to handle JWT errors

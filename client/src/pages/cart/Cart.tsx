@@ -76,6 +76,12 @@ const Cart = () => {
                     <p>No items.</p>
                 )}
             </div>
+            *//* add the sammery of the cart items */
+            <div className='cart-summary'>
+                <h3>Cart Summary</h3>
+                <p>Total Items: {cartItems?.length}</p>
+                <p>Total Price: ${cartItems?.reduce((acc, item) => acc + (item.price * item.quantity), 0).toFixed(2)}</p>
+            </div>
             {cartItems?.length > 0 && <button
                 className='checkoutButton'
                 type="submit"
