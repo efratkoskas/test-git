@@ -79,9 +79,8 @@ const Cart = () => {
             </div>
 
             <div className='cart-summary'>
-                <h3>Cart Summary</h3>
                 <p>Total Items: {updatedItems?.length}</p>
-                <p>Total Price: ${updatedItems?.reduce((acc, item) => acc + (item.price * item.quantity), 0).toFixed(2)}</p>
+                <p>Total Price: $ {updatedItems?.reduce((acc, item) => acc + (item.price * item.quantity), 0).toFixed(2)}</p>
 
 
             </div>

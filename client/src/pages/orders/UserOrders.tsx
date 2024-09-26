@@ -14,7 +14,6 @@ export default function UserOrders() {
     const orders = useSelector((state: RootState) => state.user.orders) || [];
 
     useEffect(() => {
-        // if (!totalItems || products.length < totalItems) {
         dispatch(fetchProducts({ page: 1, limit: -1 }));
         dispatch(getOrder());
     }, []);
@@ -41,10 +40,11 @@ export default function UserOrders() {
             <div className='order'>{orders.map((orderItem: OrderItem) =>
                 <div className='eachOrder'
                     key={orderItem.date.toString()}>
-                    <span className='orderDate'>Date: {orderItem.date?.toLocaleDateString()}</span>
-                    <div className='totalPrice'>
+                    <div className='date-and-total'>
+                        <span className='orderDate'>Date: {orderItem.date?.toLocaleDateString()}</span>
                         <h3 className='totalPriceTitle'>Total Price: {orderItem.totalAmount.toFixed(2)}$</h3>
                     </div>
+
                     <ul>
                         {orderItem.orderItems?.map((cartItem: CartItem) =>
                             <li key={cartItem._id}>

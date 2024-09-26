@@ -19,15 +19,39 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 100%;
     max-width: 1260px;
     padding: 20px;
     margin: 10px 0;
 }
 
+.date-and-total {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
 .orderDate {
     font-size: 1.17em;
     font-weight: bold;
+    font-weight: bold;
+    color: #555;
+    min-width: 100px;
+    padding: 5px;
+    font-size: 16px;
+    border: 2px solid #e6e6e6;
+    border-radius: 4px;
+}
+
+.totalPriceTitle {
+    font-weight: bold;
+    color: #555;
+    min-width: 100px;
+    padding: 5px;
+    font-size: 16px;
+    border: 2px solid #e6e6e6;
+    border-radius: 4px;
 }
 
 .order ul {
@@ -48,12 +72,6 @@
     flex-basis: 30%;
     max-width: 300px;
     flex-wrap: wrap;
-}
-
-.totalPrice {
-    width: 100%;
-    text-align: center;
-    margin-top: 20px;
 }
 
 @media (max-width: 768px) {
